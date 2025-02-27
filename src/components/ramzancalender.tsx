@@ -18,7 +18,7 @@ const RamzanCalendar = () => {
   };
 
   // Function to convert 24-hour time to 12-hour time
-  const convertTo12HourFormat = (time: { split: (arg0: string) => [any, any]; }) => {
+  const convertTo12HourFormat = (time) => {
     const [hour, minute] = time.split(':');
     const parsedHour = parseInt(hour);
     const ampm = parsedHour >= 12 ? 'PM' : 'AM';
@@ -27,7 +27,7 @@ const RamzanCalendar = () => {
   };
 
   // Function to fetch Sehri and Iftar times from Aladhan API
-  const fetchPrayerTimes = async (year: number, country: string, city: string) => {
+  const fetchPrayerTimes = async (year, country, city) => {
     setLoading(true);
     try {
       // Set method based on country
@@ -79,7 +79,7 @@ const RamzanCalendar = () => {
   };
 
   // Function to get Ashra color based on day
-  const getAshraColor = (day: number) => {
+  const getAshraColor = (day) => {
     if (!ashraColors) return darkMode ? 'bg-gray-800' : 'bg-white'; // Default color
     if (day <= 10) {
       return darkMode ? 'bg-green-900' : 'bg-green-100'; // First Ashra
