@@ -1,0 +1,1 @@
+src/large-file.ext filter=lfs diff=lfs merge=lfs -text
