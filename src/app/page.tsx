@@ -2,14 +2,26 @@
 
 import { useState, useEffect } from 'react';
 
+interface PrayerTimes {
+  Fajr: string;
+  Maghrib: string;
+}
+
+interface RamzanDate {
+  day: number;
+  date: string;
+  sehri: string;
+  iftar: string;
+}
+
 const RamzanCalendar = () => {
-  const [year, setYear] = useState(2025); // Default year set to 2025
-  const [country, setCountry] = useState('Pakistan'); // Default country
-  const [city, setCity] = useState('Karachi'); // Default city
-  const [ramzanDates, setRamzanDates] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(false); // Dark mode state
-  const [ashraColors, setAshraColors] = useState(false); // Ashra colors state
+  const [year, setYear] = useState<number>(2025); // Default year set to 2025
+  const [country, setCountry] = useState<string>('Pakistan'); // Default country
+  const [city, setCity] = useState<string>('Karachi'); // Default city
+  const [ramzanDates, setRamzanDates] = useState<RamzanDate[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [darkMode, setDarkMode] = useState<boolean>(false); // Dark mode state
+  const [ashraColors, setAshraColors] = useState<boolean>(false); // Ashra colors state
 
   // Cities for Pakistan and UK
   const cities = {
@@ -18,7 +30,7 @@ const RamzanCalendar = () => {
   };
 
   // Function to convert 24-hour time to 12-hour time
-  const convertTo12HourFormat = (time: { split: (arg0: string) => [any, any]; }) => {
+  const convertTo12HourFormat = (time: string): string => {
     const [hour, minute] = time.split(':');
     const parsedHour = parseInt(hour);
     const ampm = parsedHour >= 12 ? 'PM' : 'AM';
@@ -40,13 +52,14 @@ const RamzanCalendar = () => {
       }
       const data = await response.json();
       console.log('API Response:', data); // Log API response
+
       const ramzanStart = new Date(year, 2, 2); // Ramzan starts on March 2, 2025
-      const calendar = [];
+      const calendar: RamzanDate[] = [];
 
       for (let day = 0; day < 30; day++) {
         const currentDate = new Date(ramzanStart);
         currentDate.setDate(ramzanStart.getDate() + day);
-        const prayerTimes = data.data[day].timings;
+        const prayerTimes: PrayerTimes = data.data[day].timings;
         calendar.push({
           day: day + 1,
           date: currentDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
@@ -79,7 +92,7 @@ const RamzanCalendar = () => {
   };
 
   // Function to get Ashra color based on day
-  const getAshraColor = (day: number) => {
+  const getAshraColor = (day: number): string => {
     if (!ashraColors) return darkMode ? 'bg-gray-800' : 'bg-white'; // Default color
     if (day <= 10) {
       return darkMode ? 'bg-green-900' : 'bg-green-100'; // First Ashra
@@ -128,8 +141,9 @@ const RamzanCalendar = () => {
             id="country"
             value={country}
             onChange={(e) => {
-              setCountry(e.target.value);
-              setCity(cities[e.target.value][0]); // Reset city to first city of selected country
+              const selectedCountry = e.target.value as keyof typeof cities;
+              setCountry(selectedCountry);
+              setCity(cities[selectedCountry][0]); // Reset city to first city of selected country
             }}
             className={`p-2 border ${darkMode ? 'border-gray-700 bg-gray-800 text-white' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
           >
@@ -145,7 +159,7 @@ const RamzanCalendar = () => {
             onChange={(e) => setCity(e.target.value)}
             className={`p-2 border ${darkMode ? 'border-gray-700 bg-gray-800 text-white' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
           >
-            {cities[country].map((cityName) => (
+            {cities[country as keyof typeof cities].map((cityName) => (
               <option key={cityName} value={cityName}>
                 {cityName}
               </option>
