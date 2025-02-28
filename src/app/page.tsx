@@ -178,8 +178,8 @@ const RamzanCalendar = () => {
       </div>
       {/* Roza Ki Niyat Aur Iftar Ki Niyat Ki Dua */}
       <div className={`mb-6 p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
-        <h2 className="text-2xl font-bold mb-4"> روزے کی نیت (افطار کی دعا)</h2>
-        <div className="space-y-4">
+        <h2 className="text-2xl font-bold mb-4 text-right"> روزے کی نیت (افطار کی دعا)</h2>
+        <div className="space-y-4 text-right">
           <div>
             <h3 className="text-xl font-semibold">روزے کی نیت</h3>
             <p className="mt-2">
@@ -245,10 +245,10 @@ const RamzanCalendar = () => {
       )}
       {/* Ashra Duas Section */}
       <div className={`mt-8 p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
-        <h2 className="text-2xl font-bold mb-4">Ashra Duas</h2>
-        <div className="space-y-4">
+        <h2 className="text-2xl font-bold mb-4 text-right">Ashra Duas</h2>
+        <div className="space-y-4 text-right">
           <div>
-            <h3 className="text-xl font-semibold">First Ashra Dua</h3>
+            <h3 className="text-xl font-semibold">پہلا عشرہ رحمت </h3>
             <p className="mt-2">
               رَبِّ اغْفِرُ وَارْحَمُ وَأَنْتَ خَيْرُ الرَّحِمِينَ <br />
               (Translation: My Lord, forgive me and have mercy upon me, for You are the best of the merciful.) <br />
@@ -256,7 +256,7 @@ const RamzanCalendar = () => {
             </p>
           </div>
           <div>
-            <h3 className="text-xl font-semibold">Second Ashra Dua</h3>
+            <h3 className="text-xl font-semibold">دوسرا عشرہ مغفرت </h3>
             <p className="mt-2">
               أسْتَغْفِرُ اللهَ رَبي مِنْ كُلِ ذَنبٍ وَأتُوبُ إلَيهِ <br />
               (Translation: I seek forgiveness from Allah, my Lord, for every sin, and I turn to Him in repentance.) <br />
@@ -264,7 +264,7 @@ const RamzanCalendar = () => {
             </p>
           </div>
           <div>
-            <h3 className="text-xl font-semibold">Third Ashra Dua</h3>
+            <h3 className="text-xl font-semibold">تیسرا عشرة دوزخ سے نجات </h3>
             <p className="mt-2">
               اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ <br />
               (Translation: O Allah, save me from the fire of Hell.) <br />
