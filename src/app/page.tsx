@@ -179,22 +179,30 @@ const RamzanCalendar = () => {
       {/* Roza Ki Niyat Aur Iftar Ki Niyat Ki Dua */}
       <div className={`mb-6 p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <h2 className="text-2xl font-bold mb-4 text-right"> روزے کی نیت (افطار کی دعا)</h2>
-        <div className="space-y-4 text-right">
+        <div className="space-y-4">
           <div>
-            <h3 className="text-xl font-semibold">روزے کی نیت</h3>
-            <p className="mt-2">
-              وَبِصَوْمٍ غَدٍ نَوَيْتُ مِنْ شَهْرِ رَمَضَانِ <br />
-              (Translation: I intend to keep the fast for tomorrow in the month of Ramadan.) <br />
-              (ترجمہ: میں نے رمضان کے مہینے میں کل کے روزے کی نیت کی۔)
-            </p>
+            <h3 className="text-xl font-semibold text-right">روزے کی نیت</h3>
+            <div className="flex justify-between items-start">
+              <p className="mt-2 text-left w-1/2">
+                (Translation: I intend to keep the fast for tomorrow in the month of Ramadan.)
+              </p>
+              <div className="mt-2 text-right w-1/2">
+                <p>وَبِصَوْمٍ غَدٍ نَوَيْتُ مِنْ شَهْرِ رَمَضَانِ</p>
+                <p className="mt-2">(ترجمہ: میں نے رمضان کے مہینے میں کل کے روزے کی نیت کی۔)</p>
+              </div>
+            </div>
           </div>
           <div>
-            <h3 className="text-xl font-semibold">(افطار کی دعا)</h3>
-            <p className="mt-2">
-              اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَ بِكَ آمَنْتُ وَ عَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ <br />
-              (Translation: O Allah, I fasted for You and I break my fast with Your sustenance.) <br />
-              (ترجمہ: اے اللہ، میں نے تیرے لیے روزہ رکھا اور تیرے رزق سے افطار کیا۔)
-            </p>
+            <h3 className="text-xl font-semibold text-right">(افطار کی دعا)</h3>
+            <div className="flex justify-between items-start">
+              <p className="mt-2 text-left w-1/2">
+                (Translation: O Allah, I fasted for You and I break my fast with Your sustenance.)
+              </p>
+              <div className="mt-2 text-right w-1/2">
+                <p>اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَ بِكَ آمَنْتُ وَ عَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ</p>
+                <p className="mt-2">(ترجمہ: اے اللہ، میں نے تیرے لیے روزہ رکھا اور تیرے رزق سے افطار کیا۔)</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -246,30 +254,42 @@ const RamzanCalendar = () => {
       {/* Ashra Duas Section */}
       <div className={`mt-8 p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <h2 className="text-2xl font-bold mb-4 text-right">Ashra Duas</h2>
-        <div className="space-y-4 text-right">
+        <div className="space-y-4">
           <div>
-            <h3 className="text-xl font-semibold">پہلا عشرہ رحمت </h3>
-            <p className="mt-2">
-              رَبِّ اغْفِرُ وَارْحَمُ وَأَنْتَ خَيْرُ الرَّحِمِينَ <br />
-              (Translation: My Lord, forgive me and have mercy upon me, for You are the best of the merciful.) <br />
-              (ترجمہ: اے میرے رب مجھے بخش دے مجھ پر رحم فرما تو سب سے بہتر رحم فرمانے والا ہے۔)
-            </p>
+            <h3 className="text-xl font-semibold text-right">پہلا عشرہ رحمت </h3>
+            <div className="flex justify-between items-start">
+              <p className="mt-2 text-left w-1/2">
+                (Translation: My Lord, forgive me and have mercy upon me, for You are the best of the merciful.)
+              </p>
+              <div className="mt-2 text-right w-1/2">
+                <p>رَبِّ اغْفِرُ وَارْحَمُ وَأَنْتَ خَيْرُ الرَّحِمِينَ</p>
+                <p className="mt-2">(ترجمہ: اے میرے رب مجھے بخش دے مجھ پر رحم فرما تو سب سے بہتر رحم فرمانے والا ہے۔)</p>
+              </div>
+            </div>
           </div>
           <div>
-            <h3 className="text-xl font-semibold">دوسرا عشرہ مغفرت </h3>
-            <p className="mt-2">
-              أسْتَغْفِرُ اللهَ رَبي مِنْ كُلِ ذَنبٍ وَأتُوبُ إلَيهِ <br />
-              (Translation: I seek forgiveness from Allah, my Lord, for every sin, and I turn to Him in repentance.) <br />
-              (ترجمہ: میں اپنے رب اللہ سے ہر گناہ کی معافی مانگتا ہوں اور اس کی طرف توبہ کرتا ہوں۔)
-            </p>
+            <h3 className="text-xl font-semibold text-right">دوسرا عشرہ مغفرت </h3>
+            <div className="flex justify-between items-start">
+              <p className="mt-2 text-left w-1/2">
+                (Translation: I seek forgiveness from Allah, my Lord, for every sin, and I turn to Him in repentance.)
+              </p>
+              <div className="mt-2 text-right w-1/2">
+                <p>أسْتَغْفِرُ اللهَ رَبي مِنْ كُلِ ذَنبٍ وَأتُوبُ إلَيهِ</p>
+                <p className="mt-2">(ترجمہ: میں اپنے رب اللہ سے ہر گناہ کی معافی مانگتا ہوں اور اس کی طرف توبہ کرتا ہوں۔)</p>
+              </div>
+            </div>
           </div>
           <div>
-            <h3 className="text-xl font-semibold">تیسرا عشرة دوزخ سے نجات </h3>
-            <p className="mt-2">
-              اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ <br />
-              (Translation: O Allah, save me from the fire of Hell.) <br />
-              (ترجمہ: اے اللہ، مجھے دوزخ کی آگ سے بچا۔)
-            </p>
+            <h3 className="text-xl font-semibold text-right">تیسرا عشرة نجات </h3>
+            <div className="flex justify-between items-start">
+              <p className="mt-2 text-left w-1/2">
+                (Translation: O Allah, save me from the fire of Hell.)
+              </p>
+              <div className="mt-2 text-right w-1/2">
+                <p>اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ</p>
+                <p className="mt-2">(ترجمہ: اے اللہ، مجھے دوزخ کی آگ سے بچا۔)</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
