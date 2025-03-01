@@ -28,6 +28,15 @@ const RamzanCalendar = () => {
     UK: ['London', 'Birmingham', 'Manchester', 'Glasgow', 'Edinburgh'],
   };
 
+  // Correct Sehri times for the first day of Ramadan in Pakistan cities
+  const firstDaySehriTimes: { [key: string]: string } = {
+    Karachi: '05:38',
+    Lahore: '05:08',
+    Islamabad: '05:13',
+    Peshawar: '05:18',
+    Quetta: '05:37',
+  };
+
   // Function to convert 24-hour time to 12-hour time
   const convertTo12HourFormat = (time: string): string => {
     const [hour, minute] = time.split(':');
@@ -35,6 +44,16 @@ const RamzanCalendar = () => {
     const ampm = parsedHour >= 12 ? 'PM' : 'AM';
     const formattedHour = parsedHour % 12 || 12; // Convert 0 to 12 for 12 AM
     return `${formattedHour}:${minute} ${ampm}`;
+  };
+
+  // Function to decrease time by 1 minute each day
+  const decreaseTimeByOneMinute = (time: string, day: number): string => {
+    const [hour, minute] = time.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hour, minute - day, 0, 0); // Subtract 1 minute for each day
+    const adjustedHour = date.getHours().toString().padStart(2, '0');
+    const adjustedMinute = date.getMinutes().toString().padStart(2, '0');
+    return `${adjustedHour}:${adjustedMinute}`;
   };
 
   // Function to fetch Sehri and Iftar times from Aladhan API
@@ -71,10 +90,14 @@ const RamzanCalendar = () => {
         }
 
         const prayerTimes: PrayerTimes = data.data[day].timings;
+        const sehriTime =
+          country === 'Pakistan'
+            ? decreaseTimeByOneMinute(firstDaySehriTimes[city], day) // Decrease Sehri time by 1 minute each day
+            : prayerTimes.Fajr.split(' ')[0]; // Use API's Fajr time for non-Pakistan cities
         calendar.push({
           day: day + 1,
           date: currentDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-          sehri: convertTo12HourFormat(prayerTimes.Fajr),
+          sehri: convertTo12HourFormat(sehriTime),
           iftar: convertTo12HourFormat(prayerTimes.Maghrib),
         });
       }
@@ -319,6 +342,8 @@ const RamzanCalendar = () => {
             font-size: 8pt; /* Smaller font size for printing */
             margin: 0; /* Remove default margin */
             padding: 0; /* Remove default padding */
+            -webkit-print-color-adjust: exact; /* Force background colors to print */
+            print-color-adjust: exact; /* Standard property for modern browsers */
           }
           .print-hidden {
             display: none; /* Hide unnecessary elements */
