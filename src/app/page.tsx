@@ -43,20 +43,33 @@ const RamzanCalendar = () => {
     try {
       // Set method based on country
       const method = country === 'Pakistan' ? 2 : 1; // Use method=2 for Pakistan, method=1 for UK
-      const response = await fetch(
-        `https://api.aladhan.com/v1/calendarByCity?city=${city}&country=${country}&method=${method}&month=3&year=${year}`
-      );
+      const apiUrl = `https://api.aladhan.com/v1/calendarByCity?city=${city}&country=${country}&method=${method}&month=3&year=${year}`;
+      console.log('API URL:', apiUrl); // Log API URL for debugging
+
+      const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error('API call failed');
       }
       const data = await response.json();
-      console.log('API Response:', data); // Log API response
+      console.log('API Response:', data); // Log API response for debugging
+
+      // Check if data.data exists and is an array
+      if (!data.data || !Array.isArray(data.data)) {
+        throw new Error('Invalid API response format');
+      }
 
       const ramzanStart = new Date(year, 2, 2); // Ramzan starts on March 2, 2025
       const calendar: RamzanDate[] = [];
       for (let day = 0; day < 30; day++) {
         const currentDate = new Date(ramzanStart);
         currentDate.setDate(ramzanStart.getDate() + day);
+
+        // Check if data.data[day] exists and has timings
+        if (!data.data[day] || !data.data[day].timings) {
+          console.error(`Invalid data for day ${day + 1}`);
+          continue;
+        }
+
         const prayerTimes: PrayerTimes = data.data[day].timings;
         calendar.push({
           day: day + 1,
@@ -100,11 +113,26 @@ const RamzanCalendar = () => {
     }
   };
 
+  // Function to handle printing
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className={`p-5 font-sans min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
+      {/* Print Button */}
+      <div className="flex justify-end mb-4 print:hidden">
+        <button
+          onClick={handlePrint}
+          className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+        >
+          Print Calendar
+        </button>
+      </div>
+
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Ramzan Calendar {year}</h1>
-        <div className="flex gap-4">
+        <h1 className="text-3xl font-bold print:text-2xl">Ramzan Calendar {year}</h1>
+        <div className="flex gap-4 print:hidden">
           <button
             onClick={toggleAshraColors}
             className="p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
@@ -119,7 +147,7 @@ const RamzanCalendar = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-6">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-6 print:hidden">
         <div>
           <label htmlFor="year" className="mr-2 text-lg">
             Select Year:
@@ -177,31 +205,23 @@ const RamzanCalendar = () => {
         </div>
       </div>
       {/* Roza Ki Niyat Aur Iftar Ki Niyat Ki Dua */}
-      <div className={`mb-6 p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
-        <h2 className="text-2xl font-bold mb-4 text-right"> روزے کی نیت (افطار کی دعا)</h2>
+      <div className={`mb-6 p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800' : 'bg-white'} dua-section`}>
+        <h2 className="text-2xl font-bold mb-4 text-right print:text-xl"> روزے کی نیت (افطار کی دعا)</h2>
         <div className="space-y-4">
           <div>
-            <h3 className="text-xl font-semibold text-right">روزے کی نیت</h3>
-            <div className="flex justify-between items-start">
-              <p className="mt-2 text-left w-1/2">
-                (Translation: I intend to keep the fast for tomorrow in the month of Ramadan.)
-              </p>
-              <div className="mt-2 text-right w-1/2">
-                <p>وَبِصَوْمٍ غَدٍ نَوَيْتُ مِنْ شَهْرِ رَمَضَانِ</p>
-                <p className="mt-2">(ترجمہ: میں نے رمضان کے مہینے میں کل کے روزے کی نیت کی۔)</p>
-              </div>
+            <h3 className="text-xl font-semibold text-right print:text-lg">روزے کی نیت</h3>
+            <div className="flex flex-col">
+              <p className="mt-2 text-right">وَبِصَوْمٍ غَدٍ نَوَيْتُ مِنْ شَهْرِ رَمَضَانِ</p>
+              <p className="mt-2 text-right">(ترجمہ: میں نے رمضان کے مہینے میں کل کے روزے کی نیت کی۔)</p>
+              <p className="mt-2 text-left">(Translation: I intend to keep the fast for tomorrow in the month of Ramadan.)</p>
             </div>
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-right">(افطار کی دعا)</h3>
-            <div className="flex justify-between items-start">
-              <p className="mt-2 text-left w-1/2">
-                (Translation: O Allah, I fasted for You and I break my fast with Your sustenance.)
-              </p>
-              <div className="mt-2 text-right w-1/2">
-                <p>اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَ بِكَ آمَنْتُ وَ عَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ</p>
-                <p className="mt-2">(ترجمہ: اے اللہ، میں نے تیرے لیے روزہ رکھا اور تیرے رزق سے افطار کیا۔)</p>
-              </div>
+            <h3 className="text-xl font-semibold text-right print:text-lg">(افطار کی دعا)</h3>
+            <div className="flex flex-col">
+              <p className="mt-2 text-right">اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَ بِكَ آمَنْتُ وَ عَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ</p>
+              <p className="mt-2 text-right">(ترجمہ: اے اللہ، میں نے تیرے لیے روزہ رکھا اور تیرے رزق سے افطار کیا۔)</p>
+              <p className="mt-2 text-left">(Translation: O Allah, I fasted for You and I break my fast with Your sustenance.)</p>
             </div>
           </div>
         </div>
@@ -213,14 +233,22 @@ const RamzanCalendar = () => {
           <table
             className={`min-w-full border ${
               darkMode ? 'border-gray-700' : 'border-gray-200'
-            } shadow-sm rounded-lg overflow-hidden`}
+            } shadow-sm rounded-lg overflow-hidden print:border-collapse print:w-full`}
           >
             <thead className={`${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
               <tr>
-                <th className="py-3 px-4 border-b text-left text-sm font-semibold">Day</th>
-                <th className="py-3 px-4 border-b text-left text-sm font-semibold">Date</th>
-                <th className="py-3 px-4 border-b text-left text-sm font-semibold">Sehri Time</th>
-                <th className="py-3 px-4 border-b text-left text-sm font-semibold">Iftar Time</th>
+                <th className="py-3 px-4 border-b text-left text-sm font-semibold print:py-2 print:px-2 print:text-xs">
+                  Day
+                </th>
+                <th className="py-3 px-4 border-b text-left text-sm font-semibold print:py-2 print:px-2 print:text-xs">
+                  Date
+                </th>
+                <th className="py-3 px-4 border-b text-left text-sm font-semibold print:py-2 print:px-2 print:text-xs">
+                  Sehri Time
+                </th>
+                <th className="py-3 px-4 border-b text-left text-sm font-semibold print:py-2 print:px-2 print:text-xs">
+                  Iftar Time
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -231,16 +259,16 @@ const RamzanCalendar = () => {
                     darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
                   } transition-colors`}
                 >
-                  <td className={`py-3 px-4 border-b text-sm ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                  <td className={`py-3 px-4 border-b text-sm ${darkMode ? 'border-gray-700' : 'border-gray-200'} print:py-2 print:px-2 print:text-xs`}>
                     Day {day}
                   </td>
-                  <td className={`py-3 px-4 border-b text-sm ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                  <td className={`py-3 px-4 border-b text-sm ${darkMode ? 'border-gray-700' : 'border-gray-200'} print:py-2 print:px-2 print:text-xs`}>
                     {date}
                   </td>
-                  <td className={`py-3 px-4 border-b text-sm ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                  <td className={`py-3 px-4 border-b text-sm ${darkMode ? 'border-gray-700' : 'border-gray-200'} print:py-2 print:px-2 print:text-xs`}>
                     {sehri}
                   </td>
-                  <td className={`py-3 px-4 border-b text-sm ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                  <td className={`py-3 px-4 border-b text-sm ${darkMode ? 'border-gray-700' : 'border-gray-200'} print:py-2 print:px-2 print:text-xs`}>
                     {iftar}
                   </td>
                 </tr>
@@ -252,47 +280,86 @@ const RamzanCalendar = () => {
         <p className="text-center text-red-600">No data available. Please try again.</p>
       )}
       {/* Ashra Duas Section */}
-      <div className={`mt-8 p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
-        <h2 className="text-2xl font-bold mb-4 text-right">Ashra Duas</h2>
+      <div className={`mt-8 p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800' : 'bg-white'} dua-section`}>
+        <h2 className="text-2xl font-bold mb-4 text-right print:text-xl">Ashra Duas</h2>
         <div className="space-y-4">
           <div>
-            <h3 className="text-xl font-semibold text-right">پہلا عشرہ رحمت </h3>
-            <div className="flex justify-between items-start">
-              <p className="mt-2 text-left w-1/2">
-                (Translation: My Lord, forgive me and have mercy upon me, for You are the best of the merciful.)
-              </p>
-              <div className="mt-2 text-right w-1/2">
-                <p>رَبِّ اغْفِرُ وَارْحَمُ وَأَنْتَ خَيْرُ الرَّحِمِينَ</p>
-                <p className="mt-2">(ترجمہ: اے میرے رب مجھے بخش دے مجھ پر رحم فرما تو سب سے بہتر رحم فرمانے والا ہے۔)</p>
-              </div>
+            <h3 className="text-xl font-semibold text-right print:text-lg">پہلا عشرہ رحمت</h3>
+            <div className="flex flex-col">
+              <p className="mt-2 text-right">رَبِّ اغْفِرُ وَارْحَمُ وَأَنْتَ خَيْرُ الرَّحِمِينَ</p>
+              <p className="mt-2 text-right">(ترجمہ: اے میرے رب مجھے بخش دے مجھ پر رحم فرما تو سب سے بہتر رحم فرمانے والا ہے۔)</p>
+              <p className="mt-2 text-left">(Translation: My Lord, forgive me and have mercy upon me, for You are the best of the merciful.)</p>
             </div>
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-right">دوسرا عشرہ مغفرت </h3>
-            <div className="flex justify-between items-start">
-              <p className="mt-2 text-left w-1/2">
-                (Translation: I seek forgiveness from Allah, my Lord, for every sin, and I turn to Him in repentance.)
-              </p>
-              <div className="mt-2 text-right w-1/2">
-                <p>أسْتَغْفِرُ اللهَ رَبي مِنْ كُلِ ذَنبٍ وَأتُوبُ إلَيهِ</p>
-                <p className="mt-2">(ترجمہ: میں اپنے رب اللہ سے ہر گناہ کی معافی مانگتا ہوں اور اس کی طرف توبہ کرتا ہوں۔)</p>
-              </div>
+            <h3 className="text-xl font-semibold text-right print:text-lg">دوسرا عشرہ مغفرت</h3>
+            <div className="flex flex-col">
+              <p className="mt-2 text-right">أسْتَغْفِرُ اللهَ رَبي مِنْ كُلِ ذَنبٍ وَأتُوبُ إلَيهِ</p>
+              <p className="mt-2 text-right">(ترجمہ: میں اپنے رب اللہ سے ہر گناہ کی معافی مانگتا ہوں اور اس کی طرف توبہ کرتا ہوں۔)</p>
+              <p className="mt-2 text-left">(Translation: I seek forgiveness from Allah, my Lord, for every sin, and I turn to Him in repentance.)</p>
             </div>
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-right">تیسرا عشرة نجات </h3>
-            <div className="flex justify-between items-start">
-              <p className="mt-2 text-left w-1/2">
-                (Translation: O Allah, save me from the fire of Hell.)
-              </p>
-              <div className="mt-2 text-right w-1/2">
-                <p>اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ</p>
-                <p className="mt-2">(ترجمہ: اے اللہ، مجھے دوزخ کی آگ سے بچا۔)</p>
-              </div>
+            <h3 className="text-xl font-semibold text-right print:text-lg">تیسرا عشرة نجات</h3>
+            <div className="flex flex-col">
+              <p className="mt-2 text-right">اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ</p>
+              <p className="mt-2 text-right">(ترجمہ: اے اللہ، مجھے دوزخ کی آگ سے بچا۔)</p>
+              <p className="mt-2 text-left">(Translation: O Allah, save me from the fire of Hell.)</p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Print-Specific Styles */}
+      <style jsx>{`
+        @media print {
+          body {
+            background: white;
+            color: black;
+            font-size: 8pt; /* Smaller font size for printing */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+          }
+          .print-hidden {
+            display: none; /* Hide unnecessary elements */
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8pt; /* Smaller font size for table */
+          }
+          th, td {
+            border: 1px solid #000;
+            padding: 2px; /* Reduce padding */
+            text-align: left;
+          }
+          th {
+            background-color: #f2f2f2;
+          }
+          .dua-section {
+            page-break-inside: avoid; /* Prevent duas from splitting across pages */
+            margin-bottom: 4px; /* Reduce margin */
+          }
+          .dua-section h2 {
+            font-size: 10pt; /* Smaller heading size */
+            margin-bottom: 2px; /* Reduce margin */
+          }
+          .dua-section h3 {
+            font-size: 9pt; /* Smaller subheading size */
+            margin-bottom: 2px; /* Reduce margin */
+          }
+          .dua-section p {
+            font-size: 8pt; /* Smaller text size */
+            margin-bottom: 2px; /* Reduce margin */
+          }
+          .text-right {
+            text-align: right; /* Ensure Arabic text is right-aligned */
+          }
+          .text-left {
+            text-align: left; /* Ensure translations are left-aligned */
+          }
+        }
+      `}</style>
     </div>
   );
 };
