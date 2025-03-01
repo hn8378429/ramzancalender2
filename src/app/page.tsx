@@ -358,6 +358,16 @@ const RamzanCalendar = () => {
           .text-left {
             text-align: left; /* Ensure translations are left-aligned */
           }
+          /* Apply Ashra colors in print mode */
+          .bg-green-100 {
+            background-color: #f0fff4 !important; /* Light green for first Ashra */
+          }
+          .bg-blue-100 {
+            background-color: #ebf8ff !important; /* Light blue for second Ashra */
+          }
+          .bg-purple-100 {
+            background-color: #faf5ff !important; /* Light purple for third Ashra */
+          }
         }
       `}</style>
     </div>
