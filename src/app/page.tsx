@@ -229,7 +229,7 @@ const RamzanCalendar = () => {
       </div>
       {/* Roza Ki Niyat Aur Iftar Ki Niyat Ki Dua */}
       <div className={`mb-6 p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800' : 'bg-white'} dua-section`}>
-        <h2 className="text-2xl font-bold mb-4 text-right print:text-xl"> روزے کی نیت سحری کی دعا) (افطار کی دعا))</h2>
+        <h2 className="text-2xl font-bold mb-4 text-right print:text-xl"> روزے کی نیت) (افطار کی دعا))</h2>
         <div className="space-y-4">
           <div>
             <h3 className="text-xl font-semibold text-right print:text-lg">روزے کی نیت</h3>
