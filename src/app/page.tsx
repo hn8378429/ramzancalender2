@@ -17,7 +17,7 @@ interface WeatherData {
 }
 
 const RamzanCalendar = () => {
-  const [year] = useState<number>(2026); // ✅ FIXED: setYear हटा दिया क्योंकि इस्तेमाल नहीं हो रहा था
+  const [year] = useState<number>(2026);
   const [country, setCountry] = useState<string>('Pakistan');
   const [city, setCity] = useState<string>('Islamabad');
   const [ramzanDates, setRamzanDates] = useState<RamzanDate[]>([]);
@@ -49,18 +49,14 @@ const RamzanCalendar = () => {
   const [ashraToggle, setAshraToggle] = useState<boolean>(false);
   const [bismillahColor, setBismillahColor] = useState<string>('text-gray-900 dark:text-white');
   
-  // ✅ REFERENCE to track current city for calculations
   const currentCityRef = useRef<string>('Islamabad');
 
-  // Cities for Pakistan and UK
   const cities = {
     Pakistan: ['Islamabad', 'Karachi', 'Lahore', 'Faisalabad'],
     UK: ['Coventry', 'London', 'Birmingham'],
   };
 
-  // ✅ MANUAL TIMETABLES for 2026
   const get2026ManualTimetable = (city: string): RamzanDate[] => {
-    // ✅ Islamabad, Pakistan - Exact from your timetable
     const islamabadTimetable: RamzanDate[] = [
       { day: 1, date: 'Thursday, February 19, 2026', sehri: '05:25 AM', iftar: '05:56 PM' },
       { day: 2, date: 'Friday, February 20, 2026', sehri: '05:24 AM', iftar: '05:56 PM' },
@@ -94,7 +90,6 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Friday, March 20, 2026', sehri: '04:48 AM', iftar: '06:20 PM' },
     ];
 
-    // ✅ Karachi, Pakistan
     const karachiTimetable: RamzanDate[] = [
       { day: 1, date: 'Thursday, February 19, 2026', sehri: '05:47 AM', iftar: '06:28 PM' },
       { day: 2, date: 'Friday, February 20, 2026', sehri: '05:46 AM', iftar: '06:29 PM' },
@@ -128,7 +123,6 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Friday, March 20, 2026', sehri: '05:20 AM', iftar: '06:43 PM' },
     ];
 
-    // Coventry, UK
     const coventryTimetable: RamzanDate[] = [
       { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:40 AM', iftar: '05:22 PM' },
       { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:38 AM', iftar: '05:24 PM' },
@@ -162,14 +156,12 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:36 AM', iftar: '06:19 PM' },
     ];
 
-    // London, UK (based on Coventry)
     const londonTimetable: RamzanDate[] = coventryTimetable.map(day => ({
       ...day,
       sehri: adjustTime(day.sehri, 5),
       iftar: adjustTime(day.iftar, 5),
     }));
 
-    // Return appropriate timetable
     switch(city) {
       case 'Islamabad': return islamabadTimetable;
       case 'Karachi': return karachiTimetable;
@@ -182,15 +174,13 @@ const RamzanCalendar = () => {
     }
   };
 
-  // Helper function to adjust time
   const adjustTime = (time: string, minutes: number): string => {
     const [timePart, ampm] = time.split(' ');
     const [hour, minute] = timePart.split(':').map(Number);
     
     let newHour = hour;
-    const newMinute = minute + minutes;  // ✅ FIXED: const का उपयोग किया
+    const newMinute = minute + minutes;
     
-    // Calculate hour adjustments for minutes overflow
     let adjustedHour = newHour;
     let adjustedMinute = newMinute;
     
@@ -222,11 +212,9 @@ const RamzanCalendar = () => {
     return `${formattedHour}:${adjustedMinute.toString().padStart(2, '0')} ${ampm}`;
   };
 
-  // ✅ FIXED: CALCULATE REAL TIME REMAINING - ALWAYS USE CURRENT CITY FROM REF
   const calculateTimeRemaining = useCallback(() => {
-    const cityToUse = currentCityRef.current; // Always use current city
+    const cityToUse = currentCityRef.current;
     
-    // Get timetable for current city
     const currentTimetable = get2026ManualTimetable(cityToUse);
     if (currentTimetable.length === 0) return;
 
@@ -238,13 +226,11 @@ const RamzanCalendar = () => {
       day: 'numeric'
     });
 
-    // Find today's timetable in CURRENT CITY's timetable
     const foundSchedule = currentTimetable.find(date => 
       date.date.trim() === todayDateStr.trim()
     );
 
     if (!foundSchedule) {
-      // If today not found, use the FIRST DAY of CURRENT CITY's timetable
       const firstDayStr = currentTimetable[0]?.date;
       if (!firstDayStr) return;
       
@@ -261,12 +247,10 @@ const RamzanCalendar = () => {
         setHoursUntilRamzan(diffHours);
         setMinutesUntilRamzan(diffMinutes);
         
-        // Reset prayer times when Ramadan hasn't started
         setTimeToSehri('');
         setTimeToIftar('');
         setCurrentPrayer('');
       } else {
-        // Ramadan has started but today's date not found in timetable
         setRamzanStarted(true);
         setDaysUntilRamzan(0);
         setHoursUntilRamzan(0);
@@ -277,7 +261,6 @@ const RamzanCalendar = () => {
 
     setRamzanStarted(true);
 
-    // Parse Sehri and Iftar times for CURRENT CITY
     const parseTime = (timeStr: string): Date => {
       const [time, modifier] = timeStr.split(' ');
       let [hours, minutes] = time.split(':').map(Number);
@@ -294,21 +277,18 @@ const RamzanCalendar = () => {
     const iftarTime = parseTime(foundSchedule.iftar);
     const now = new Date();
 
-    // Calculate time to Sehri
     let timeToSehriMs = sehriTime.getTime() - now.getTime();
     if (timeToSehriMs < 0) {
       sehriTime.setDate(sehriTime.getDate() + 1);
       timeToSehriMs = sehriTime.getTime() - now.getTime();
     }
 
-    // Calculate time to Iftar
     let timeToIftarMs = iftarTime.getTime() - now.getTime();
     if (timeToIftarMs < 0) {
       iftarTime.setDate(iftarTime.getDate() + 1);
       timeToIftarMs = iftarTime.getTime() - now.getTime();
     }
 
-    // Determine current prayer time for CURRENT CITY
     const isAfterSehri = now.getTime() > parseTime(foundSchedule.sehri).getTime();
     const isAfterIftar = now.getTime() > parseTime(foundSchedule.iftar).getTime();
     
@@ -343,7 +323,6 @@ const RamzanCalendar = () => {
     }
   }, []);
 
-  // ✅ LOAD CALENDAR DATA - UPDATED TO USE REF
   const loadCalendarData = useCallback(() => {
     setLoading(true);
     try {
@@ -358,7 +337,6 @@ const RamzanCalendar = () => {
     }
   }, []);
 
-  // ✅ GET REAL WEATHER FROM API
   const fetchWeather = async (cityName: string, countryName: string) => {
     try {
       const apiKey = '799516eb838144f36c9cd7c6e8017e80';
@@ -369,7 +347,6 @@ const RamzanCalendar = () => {
       );
       
       if (!response.ok) {
-        // Try without country
         const fallbackResponse = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${cleanCityName}&appid=${apiKey}&units=metric`
         );
@@ -399,7 +376,6 @@ const RamzanCalendar = () => {
       });
     } catch (error) {
       console.error('Error fetching weather:', error);
-      // Fallback weather
       const cityWeather = {
         'Islamabad': { temperature: 20, description: 'Clear', humidity: 55, windSpeed: 1.8, icon: '01d' },
         'Karachi': { temperature: 32, description: 'Sunny', humidity: 70, windSpeed: 2.5, icon: '01d' },
@@ -415,13 +391,11 @@ const RamzanCalendar = () => {
     }
   };
 
-  // ✅ REFRESH LOCATION FUNCTION - FIXED
   const refreshLocation = () => {
     setLocationLoading(true);
     getUserLocation();
   };
 
-  // ✅ GET USER LOCATION - FIXED
   const getUserLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -434,10 +408,9 @@ const RamzanCalendar = () => {
             
             if (response.ok) {
               const data = await response.json();
-              const userCountry = data.address.country || 'Pakistan'; // ✅ FIXED: const का उपयोग किया
+              const userCountry = data.address.country || 'Pakistan';
               let userCity = data.address.city || data.address.town || data.address.village || data.address.county || 'Islamabad';
               
-              // Clean city name
               userCity = userCity.replace(' Division', '').split(',')[0].trim();
               
               const updatedLocation = {
@@ -445,26 +418,21 @@ const RamzanCalendar = () => {
                 city: userCity
               };
               
-              // ✅ UPDATE REF FIRST
               currentCityRef.current = userCity;
               
-              // Then update states
               setUserLocation(updatedLocation);
               setCountry(userCountry);
               setCity(userCity);
               fetchWeather(userCity, userCountry);
               
-              // Load calendar data will use the updated ref
               loadCalendarData();
             } else {
               throw new Error('Location not found');
             }
           } catch (error) {
             console.error('Error getting location:', error);
-            // Fallback to Islamabad
             const defaultLoc = { country: 'Pakistan', city: 'Islamabad' };
             
-            // ✅ UPDATE REF FIRST
             currentCityRef.current = 'Islamabad';
             
             setUserLocation(defaultLoc);
@@ -478,10 +446,8 @@ const RamzanCalendar = () => {
         },
         (error) => {
           console.error('Geolocation error:', error);
-          // Fallback to Islamabad
           const defaultLoc = { country: 'Pakistan', city: 'Islamabad' };
           
-          // ✅ UPDATE REF FIRST
           currentCityRef.current = 'Islamabad';
           
           setUserLocation(defaultLoc);
@@ -494,10 +460,8 @@ const RamzanCalendar = () => {
       );
     } else {
       console.log('Geolocation not supported');
-      // Fallback to Islamabad
       const defaultLoc = { country: 'Pakistan', city: 'Islamabad' };
       
-      // ✅ UPDATE REF FIRST
       currentCityRef.current = 'Islamabad';
       
       setUserLocation(defaultLoc);
@@ -509,14 +473,11 @@ const RamzanCalendar = () => {
     }
   }, [loadCalendarData]);
 
-  // ✅ APPLY CUSTOM LOCATION - FIXED
   const applyCustomLocation = () => {
     if (!customCity.trim()) return;
 
-    // ✅ UPDATE REF FIRST
     currentCityRef.current = customCity;
     
-    // Then update states
     setCountry(customCountry);
     setCity(customCity);
     
@@ -532,13 +493,11 @@ const RamzanCalendar = () => {
     setShowCustomLocationModal(false);
   };
 
-  // ✅ TOGGLE ASHRA COLORS - WITH BISMILLAH COLOR CHANGE
   const toggleAshra = () => {
     const newAshraState = !ashraToggle;
     setAshraToggle(newAshraState);
     setAshraColors(newAshraState);
     
-    // Change Bismillah color when Ashra is enabled/disabled
     if (newAshraState) {
       setBismillahColor('text-green-500 dark:text-green-400');
     } else {
@@ -546,12 +505,10 @@ const RamzanCalendar = () => {
     }
   };
 
-  // ✅ TOGGLE DARK MODE
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
     
-    // Update Bismillah color based on dark mode
     if (ashraToggle) {
       setBismillahColor(newDarkMode ? 'text-green-400' : 'text-green-500');
     } else {
@@ -559,14 +516,12 @@ const RamzanCalendar = () => {
     }
   };
 
-  // ✅ HANDLE EDIT LOCATION
   const handleEditLocation = () => {
     setCustomCountry(country);
     setCustomCity(city);
     setShowCustomLocationModal(true);
   };
 
-  // ✅ GET ASHRA COLOR
   const getAshraColor = (day: number): string => {
     if (!ashraColors) return darkMode ? 'bg-gray-800' : 'bg-white';
     if (day <= 10) {
@@ -578,42 +533,34 @@ const RamzanCalendar = () => {
     }
   };
 
-  // ✅ HANDLE PRINT
   const handlePrint = () => {
     window.print();
   };
 
-  // Initialize on component mount
   useEffect(() => {
-    // ✅ INITIALIZE REF
     currentCityRef.current = 'Islamabad';
     loadCalendarData();
     getUserLocation();
-  }, [getUserLocation, loadCalendarData]); // ✅ FIXED: Added dependencies
+  }, [getUserLocation, loadCalendarData]);
 
-  // ✅ FIXED: Calculate time remaining - ALWAYS use current city from ref
   useEffect(() => {
     const interval = setInterval(() => {
       calculateTimeRemaining();
     }, 1000);
     
-    // Calculate immediately on mount
     calculateTimeRemaining();
     
     return () => clearInterval(interval);
-  }, [calculateTimeRemaining]); // ✅ FIXED: Added dependency
+  }, [calculateTimeRemaining]);
 
-  // ✅ FIXED: Update timetable when city changes (for UI display)
   useEffect(() => {
     loadCalendarData();
-  }, [city, loadCalendarData]); // ✅ FIXED: Added dependency
+  }, [city, loadCalendarData]);
 
   return (
     <div className={`p-4 font-sans min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
       
-      {/* TOP SECTION: Bismillah + Title */}
       <div className="text-center mb-6">
-        {/* ✅ FIXED: Bismillah color - now working in dark mode */}
         <div className="text-center mb-2">
           <div className={`text-5xl md:text-6xl mb-1 md:mb-2 ${bismillahColor}`}>
             ﷽
@@ -626,17 +573,13 @@ const RamzanCalendar = () => {
           </p>
         </div>
 
-        {/* Main Title */}
         <h1 className="text-3xl md:text-4xl font-bold mt-2">Ramzan Calendar {year}</h1>
       </div>
 
-      {/* MAIN ROW */}
       <div className={`p-4 md:p-5 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-sm mb-6`}>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           
-          {/* LEFT SIDE: Location and Weather */}
           <div className="flex-1 w-full sm:w-auto">
-            {/* Location with refresh button */}
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <h2 className="text-lg md:text-xl font-bold">{userLocation.city}, {userLocation.country}</h2>
@@ -665,7 +608,6 @@ const RamzanCalendar = () => {
               </div>
             </div>
             
-            {/* ✅ REAL Weather from API */}
             <div className="flex flex-col xs:flex-row xs:items-center gap-3">
               <div className="flex items-center gap-2">
                 <span className="text-xl">
@@ -702,7 +644,6 @@ const RamzanCalendar = () => {
             </div>
           </div>
           
-          {/* ✅ RIGHT SIDE: REAL Time Remaining - NOW SHOWS BASED ON CURRENT CITY */}
           <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700">
             <div>
               {ramzanStarted ? (
@@ -761,7 +702,7 @@ const RamzanCalendar = () => {
         </button>
 
         <div className="flex items-center gap-4">
-          {/* ✅ Ashra Colors Toggle */}
+          {/* Ashra Colors Toggle */}
           <div className="flex items-center gap-2">
             <span className="text-xs whitespace-nowrap">Ashra Colors</span>
             <button
@@ -772,31 +713,42 @@ const RamzanCalendar = () => {
             </button>
           </div>
 
-          {/* ✅ FIXED: Dark Mode Toggle - Moon/Sun inside button */}
+          {/* ✅ FIXED: Dark Mode Toggle with LARGER icons */}
           <div className="flex items-center gap-2">
             <span className="text-xs whitespace-nowrap">Dark Mode</span>
             <button
               onClick={toggleDarkMode}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full ${darkMode ? 'bg-blue-600' : 'bg-gray-300'}`}
+              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                darkMode ? 'bg-blue-600' : 'bg-gray-300'
+              }`}
             >
-              {/* Sun Icon on LEFT side when darkMode is OFF (Light Mode) */}
-              {!darkMode && (
-                <span className="absolute left-1 text-xs">☀️</span>
-              )}
+              {/* Sun Icon - Shows when NOT in dark mode (Light Mode) */}
+              <div 
+                className={`absolute left-2 transition-opacity duration-300 ${
+                  !darkMode ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <span className="text-base">☀️</span>
+              </div>
               
-              {/* Toggle Circle */}
-              <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${darkMode ? 'translate-x-6' : 'translate-x-1'}`} />
+              {/* Toggle Circle - Larger */}
+              <div className={`inline-block h-6 w-6 transform rounded-full bg-white transition-all duration-300 ${
+                darkMode ? 'translate-x-7' : 'translate-x-1'
+              }`} />
               
-              {/* Moon Icon on RIGHT side when darkMode is ON (Dark Mode) */}
-              {darkMode && (
-                <span className="absolute right-1 text-xs">🌙</span>
-              )}
+              {/* Moon Icon - Shows when in dark mode */}
+              <div 
+                className={`absolute right-2 transition-opacity duration-300 ${
+                  darkMode ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <span className="text-base">🌙</span>
+              </div>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Custom Location Modal */}
       {showCustomLocationModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className={`p-6 rounded-xl shadow-lg max-w-md w-full ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
@@ -857,7 +809,6 @@ const RamzanCalendar = () => {
         </div>
       )}
 
-      {/* Duas Section */}
       <div className={`mb-6 p-4 md:p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'} dua-section`}>
         <h2 className={`text-xl md:text-2xl font-bold mb-4 text-right ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           روزے کی نیت (افطار کی دعا)
@@ -898,7 +849,6 @@ const RamzanCalendar = () => {
         </div>
       </div>
 
-      {/* Calendar Table */}
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : ramzanDates.length > 0 ? (
@@ -947,7 +897,6 @@ const RamzanCalendar = () => {
         <p className="text-center text-red-600">No data available.</p>
       )}
 
-      {/* Ashra Duas Section */}
       <div className={`mt-6 p-4 md:p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'}`}>
         <h2 className={`text-xl md:text-2xl font-bold mb-4 text-right ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           Ashra Duas
@@ -962,7 +911,7 @@ const RamzanCalendar = () => {
                رَبِّ اغْفِرُ وَارْحَمُ وَأَنْتَ خَيْرُ الرَّحِمِينَ
               </p>
               <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: اے میرے رب مجھے بخش دے مجھ پر رحم فرما تو سب سے بہتر رحم فرمانے والا ہے۔)
+                (ترجمہ: اے میرے رب مجھے بخش دے مجھ پر رحم فرما تو سب سے بہتر رحم فرمانے والा ہے।)
               </p>
               <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 (Translation: My Lord, forgive me and have mercy upon me, for You are the best of the merciful.)
@@ -978,7 +927,7 @@ const RamzanCalendar = () => {
                أسْتَغْفِرُ اللهَ رَبي مِنْ كُلِ ذَنبٍ وَأتُوبُ إلَيهِ
               </p>
               <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: میں اپنے رب اللہ سے ہر گناہ کی معافی مانگتا ہوں اور اس کی طرف توبہ کرتا ہوں۔)
+                (ترجمہ: میں اپنے رب اللہ سے ہر गناہ की معافی مانگता ہوں اور اس کی طرف توبہ کرتا ہوں۔)
               </p>
               <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 (Translation: I seek forgiveness from Allah, my Lord, for every sin, and I turn to Him in repentance.)
