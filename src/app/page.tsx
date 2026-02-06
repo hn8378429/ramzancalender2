@@ -56,7 +56,7 @@ const RamzanCalendar = () => {
     UK: ['Coventry', 'London', 'Birmingham'],
   };
 
-  const get2026ManualTimetable = (city: string): RamzanDate[] => {
+  const get2026ManualTimetable = useCallback((city: string): RamzanDate[] => {
     const islamabadTimetable: RamzanDate[] = [
       { day: 1, date: 'Thursday, February 19, 2026', sehri: '05:25 AM', iftar: '05:56 PM' },
       { day: 2, date: 'Friday, February 20, 2026', sehri: '05:24 AM', iftar: '05:56 PM' },
@@ -172,7 +172,7 @@ const RamzanCalendar = () => {
       case 'Birmingham': return londonTimetable;
       default: return islamabadTimetable;
     }
-  };
+  }, []);
 
   const adjustTime = (time: string, minutes: number): string => {
     const [timePart, ampm] = time.split(' ');
@@ -321,7 +321,7 @@ const RamzanCalendar = () => {
         return `${seconds}s`;
       }
     }
-  }, []);
+  }, [get2026ManualTimetable]);
 
   const loadCalendarData = useCallback(() => {
     setLoading(true);
@@ -335,7 +335,7 @@ const RamzanCalendar = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [get2026ManualTimetable]);
 
   const fetchWeather = async (cityName: string, countryName: string) => {
     try {
@@ -911,7 +911,7 @@ const RamzanCalendar = () => {
                رَبِّ اغْفِرُ وَارْحَمُ وَأَنْتَ خَيْرُ الرَّحِمِينَ
               </p>
               <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: اے میرے رب مجھے بخش دے مجھ پر رحم فرما تو سب سے بہتر رحم فرمانے والा ہے।)
+                (ترجمہ: اے میرے رب مجھے بخش دے مجھ پر رحم فرما تو سب سے بہتر رحم فرمانے والا ہے۔)
               </p>
               <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 (Translation: My Lord, forgive me and have mercy upon me, for You are the best of the merciful.)
@@ -927,7 +927,7 @@ const RamzanCalendar = () => {
                أسْتَغْفِرُ اللهَ رَبي مِنْ كُلِ ذَنبٍ وَأتُوبُ إلَيهِ
               </p>
               <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: میں اپنے رب اللہ سے ہر गناہ की معافی مانگता ہوں اور اس کی طرف توبہ کرتا ہوں۔)
+                (ترجمہ: میں اپنے رب اللہ سے ہر गناہ کی معافی مانگता ہوں اور اس کی طرف توبہ کرتا ہوں۔)
               </p>
               <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 (Translation: I seek forgiveness from Allah, my Lord, for every sin, and I turn to Him in repentance.)
