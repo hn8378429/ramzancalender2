@@ -174,9 +174,8 @@ const RamzanCalendar = () => {
     }
   }, []);
 
-  // ✅ FIXED: New adjustTime function without ESLint errors
-  const adjustTime = (time: string, minutesToAdd: number): string => {
-    // Split time into components
+  // ✅ FIXED: Adjust time function without ESLint errors
+  const adjustTime = (time: string, adjustmentMinutes: number): string => {
     const [timePart, period] = time.split(' ');
     const [hoursStr, minutesStr] = timePart.split(':');
     
@@ -192,28 +191,40 @@ const RamzanCalendar = () => {
     }
     
     // Calculate total minutes
-    const totalMinutes = hours * 60 + minutes + minutesToAdd;
+    const totalMinutes = hours * 60 + minutes + adjustmentMinutes;
     
     // Convert back to hours and minutes
     let newHours = Math.floor(totalMinutes / 60) % 24;
-    const newMinutes = totalMinutes % 60;
+    let newMinutesValue = totalMinutes % 60; // ✅ Changed variable name to avoid conflict
+    
+    // Handle negative minutes
+    if (newMinutesValue < 0) {
+      newHours -= 1;
+      newMinutesValue += 60;
+      if (newHours < 0) {
+        newHours += 24;
+      }
+    }
     
     // Convert back to 12-hour format
+    let displayHours = newHours;
     let newPeriod = 'AM';
+    
     if (newHours >= 12) {
       newPeriod = 'PM';
       if (newHours > 12) {
-        newHours -= 12;
+        displayHours = newHours - 12;
       }
-    } else if (newHours === 0) {
-      newHours = 12;
+    }
+    
+    if (newHours === 0) {
+      displayHours = 12;
     }
     
     // Format the time
-    const formattedHours = newHours.toString();
-    const formattedMinutes = newMinutes.toString().padStart(2, '0');
+    const formattedMinutes = newMinutesValue.toString().padStart(2, '0');
     
-    return `${formattedHours}:${formattedMinutes} ${newPeriod}`;
+    return `${displayHours}:${formattedMinutes} ${newPeriod}`;
   };
 
   const calculateTimeRemaining = useCallback(() => {
@@ -267,13 +278,13 @@ const RamzanCalendar = () => {
 
     const parseTime = (timeStr: string): Date => {
       const [time, modifier] = timeStr.split(' ');
-      let [hours, minutes] = time.split(':').map(Number);
+      let [hours, minutesValue] = time.split(':').map(Number); // ✅ Changed variable name
       
       if (modifier === 'PM' && hours < 12) hours += 12;
       if (modifier === 'AM' && hours === 12) hours = 0;
       
       const timeDate = new Date();
-      timeDate.setHours(hours, minutes, 0, 0);
+      timeDate.setHours(hours, minutesValue, 0, 0);
       return timeDate;
     };
 
