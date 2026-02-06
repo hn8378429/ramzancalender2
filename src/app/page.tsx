@@ -174,15 +174,15 @@ const RamzanCalendar = () => {
     }
   }, []);
 
-  const adjustTime = (time: string, minutes: number): string => {
+  const adjustTime = (time: string, minutesToAdd: number): string => {
     const [timePart, ampm] = time.split(' ');
     const [hour, minute] = timePart.split(':').map(Number);
     
     let newHour = hour;
-    const newMinute = minute + minutes;
+    const totalMinutes = minute + minutesToAdd; // ✅ FIXED: Changed variable name
     
     let adjustedHour = newHour;
-    let adjustedMinute = newMinute;
+    let adjustedMinute = totalMinutes;
     
     while (adjustedMinute >= 60) {
       adjustedHour++;
@@ -927,7 +927,7 @@ const RamzanCalendar = () => {
                أسْتَغْفِرُ اللهَ رَبي مِنْ كُلِ ذَنبٍ وَأتُوبُ إلَيهِ
               </p>
               <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: میں اپنے رب اللہ سے ہر गناہ کی معافی مانگता ہوں اور اس کی طرف توبہ کرتا ہوں۔)
+                (ترجمہ: میں اپنے رب اللہ سے ہر گناہ کی معافی مانگتا ہوں اور اس کی طرف توبہ کرتا ہوں۔)
               </p>
               <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 (Translation: I seek forgiveness from Allah, my Lord, for every sin, and I turn to Him in repentance.)
