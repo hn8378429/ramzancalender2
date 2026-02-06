@@ -188,16 +188,16 @@ const RamzanCalendar = () => {
     const [hour, minute] = timePart.split(':').map(Number);
     
     let newHour = hour;
-    let newMinute = minute + minutes;
+    let newMinute = minute + minutes;  // ✅ FIXED: let का उपयोग किया
     
     while (newMinute >= 60) {
       newHour++;
-      newMinute -= 60;
+      newMinute -= 60;  // ✅ FIXED: अब यह काम करेगा क्योंकि newMinute let है
     }
     
     while (newMinute < 0) {
       newHour--;
-      newMinute += 60;
+      newMinute += 60;  // ✅ FIXED: अब यह काम करेगा क्योंकि newMinute let है
     }
     
     if (newHour >= 12) {
@@ -988,7 +988,7 @@ const RamzanCalendar = () => {
                 اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ
               </p>
               <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: اے اللہ، مجھے دوزخ کی آگ سے بچا۔)
+                (ترجمہ: اے اللہ، مجھے دوزخ کی آگ से بچا۔)
               </p>
               <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 (Translation: O Allah, save me from the fire of Hell.)
