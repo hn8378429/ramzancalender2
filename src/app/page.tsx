@@ -174,42 +174,46 @@ const RamzanCalendar = () => {
     }
   }, []);
 
+  // ✅ FIXED: New adjustTime function without ESLint errors
   const adjustTime = (time: string, minutesToAdd: number): string => {
-    const [timePart, ampm] = time.split(' ');
-    const [hour, minute] = timePart.split(':').map(Number);
+    // Split time into components
+    const [timePart, period] = time.split(' ');
+    const [hoursStr, minutesStr] = timePart.split(':');
     
-    let newHour = hour;
-    const totalMinutes = minute + minutesToAdd; // ✅ FIXED: Changed variable name
+    // Convert to numbers
+    let hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
     
-    let adjustedHour = newHour;
-    let adjustedMinute = totalMinutes;
-    
-    while (adjustedMinute >= 60) {
-      adjustedHour++;
-      adjustedMinute -= 60;
+    // Convert to 24-hour format for calculation
+    if (period === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (period === 'AM' && hours === 12) {
+      hours = 0;
     }
     
-    while (adjustedMinute < 0) {
-      adjustedHour--;
-      adjustedMinute += 60;
-    }
+    // Calculate total minutes
+    const totalMinutes = hours * 60 + minutes + minutesToAdd;
     
-    newHour = adjustedHour;
+    // Convert back to hours and minutes
+    let newHours = Math.floor(totalMinutes / 60) % 24;
+    const newMinutes = totalMinutes % 60;
     
-    if (newHour >= 12) {
-      if (ampm === 'AM' && newHour >= 12) {
-        const formattedHour = newHour % 12 || 12;
-        return `${formattedHour}:${adjustedMinute.toString().padStart(2, '0')} PM`;
+    // Convert back to 12-hour format
+    let newPeriod = 'AM';
+    if (newHours >= 12) {
+      newPeriod = 'PM';
+      if (newHours > 12) {
+        newHours -= 12;
       }
+    } else if (newHours === 0) {
+      newHours = 12;
     }
     
-    if (newHour < 12 && ampm === 'PM') {
-      const formattedHour = newHour % 12 || 12;
-      return `${formattedHour}:${adjustedMinute.toString().padStart(2, '0')} AM`;
-    }
+    // Format the time
+    const formattedHours = newHours.toString();
+    const formattedMinutes = newMinutes.toString().padStart(2, '0');
     
-    const formattedHour = newHour % 12 || 12;
-    return `${formattedHour}:${adjustedMinute.toString().padStart(2, '0')} ${ampm}`;
+    return `${formattedHours}:${formattedMinutes} ${newPeriod}`;
   };
 
   const calculateTimeRemaining = useCallback(() => {
