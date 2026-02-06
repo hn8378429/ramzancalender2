@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface RamzanDate {
   day: number;
@@ -17,7 +17,7 @@ interface WeatherData {
 }
 
 const RamzanCalendar = () => {
-  const [year, setYear] = useState<number>(2026);
+  const [year] = useState<number>(2026); // ✅ FIXED: setYear हटा दिया क्योंकि इस्तेमाल नहीं हो रहा था
   const [country, setCountry] = useState<string>('Pakistan');
   const [city, setCity] = useState<string>('Islamabad');
   const [ramzanDates, setRamzanDates] = useState<RamzanDate[]>([]);
@@ -188,36 +188,42 @@ const RamzanCalendar = () => {
     const [hour, minute] = timePart.split(':').map(Number);
     
     let newHour = hour;
-    let newMinute = minute + minutes;  // ✅ FIXED: let का उपयोग किया
+    const newMinute = minute + minutes;  // ✅ FIXED: const का उपयोग किया
     
-    while (newMinute >= 60) {
-      newHour++;
-      newMinute -= 60;  // ✅ FIXED: अब यह काम करेगा क्योंकि newMinute let है
+    // Calculate hour adjustments for minutes overflow
+    let adjustedHour = newHour;
+    let adjustedMinute = newMinute;
+    
+    while (adjustedMinute >= 60) {
+      adjustedHour++;
+      adjustedMinute -= 60;
     }
     
-    while (newMinute < 0) {
-      newHour--;
-      newMinute += 60;  // ✅ FIXED: अब यह काम करेगा क्योंकि newMinute let है
+    while (adjustedMinute < 0) {
+      adjustedHour--;
+      adjustedMinute += 60;
     }
+    
+    newHour = adjustedHour;
     
     if (newHour >= 12) {
       if (ampm === 'AM' && newHour >= 12) {
         const formattedHour = newHour % 12 || 12;
-        return `${formattedHour}:${newMinute.toString().padStart(2, '0')} PM`;
+        return `${formattedHour}:${adjustedMinute.toString().padStart(2, '0')} PM`;
       }
     }
     
     if (newHour < 12 && ampm === 'PM') {
       const formattedHour = newHour % 12 || 12;
-      return `${formattedHour}:${newMinute.toString().padStart(2, '0')} AM`;
+      return `${formattedHour}:${adjustedMinute.toString().padStart(2, '0')} AM`;
     }
     
     const formattedHour = newHour % 12 || 12;
-    return `${formattedHour}:${newMinute.toString().padStart(2, '0')} ${ampm}`;
+    return `${formattedHour}:${adjustedMinute.toString().padStart(2, '0')} ${ampm}`;
   };
 
   // ✅ FIXED: CALCULATE REAL TIME REMAINING - ALWAYS USE CURRENT CITY FROM REF
-  const calculateTimeRemaining = () => {
+  const calculateTimeRemaining = useCallback(() => {
     const cityToUse = currentCityRef.current; // Always use current city
     
     // Get timetable for current city
@@ -335,10 +341,10 @@ const RamzanCalendar = () => {
         return `${seconds}s`;
       }
     }
-  };
+  }, []);
 
   // ✅ LOAD CALENDAR DATA - UPDATED TO USE REF
-  const loadCalendarData = () => {
+  const loadCalendarData = useCallback(() => {
     setLoading(true);
     try {
       const cityToLoad = currentCityRef.current;
@@ -350,7 +356,7 @@ const RamzanCalendar = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // ✅ GET REAL WEATHER FROM API
   const fetchWeather = async (cityName: string, countryName: string) => {
@@ -416,7 +422,7 @@ const RamzanCalendar = () => {
   };
 
   // ✅ GET USER LOCATION - FIXED
-  const getUserLocation = () => {
+  const getUserLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -428,7 +434,7 @@ const RamzanCalendar = () => {
             
             if (response.ok) {
               const data = await response.json();
-              let userCountry = data.address.country || 'Pakistan';
+              const userCountry = data.address.country || 'Pakistan'; // ✅ FIXED: const का उपयोग किया
               let userCity = data.address.city || data.address.town || data.address.village || data.address.county || 'Islamabad';
               
               // Clean city name
@@ -501,7 +507,7 @@ const RamzanCalendar = () => {
       loadCalendarData();
       setLocationLoading(false);
     }
-  };
+  }, [loadCalendarData]);
 
   // ✅ APPLY CUSTOM LOCATION - FIXED
   const applyCustomLocation = () => {
@@ -583,7 +589,7 @@ const RamzanCalendar = () => {
     currentCityRef.current = 'Islamabad';
     loadCalendarData();
     getUserLocation();
-  }, []);
+  }, [getUserLocation, loadCalendarData]); // ✅ FIXED: Added dependencies
 
   // ✅ FIXED: Calculate time remaining - ALWAYS use current city from ref
   useEffect(() => {
@@ -595,12 +601,12 @@ const RamzanCalendar = () => {
     calculateTimeRemaining();
     
     return () => clearInterval(interval);
-  }, []); // Empty dependency array - runs once on mount
+  }, [calculateTimeRemaining]); // ✅ FIXED: Added dependency
 
   // ✅ FIXED: Update timetable when city changes (for UI display)
   useEffect(() => {
     loadCalendarData();
-  }, [city]);
+  }, [city, loadCalendarData]); // ✅ FIXED: Added dependency
 
   return (
     <div className={`p-4 font-sans min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
@@ -988,7 +994,7 @@ const RamzanCalendar = () => {
                 اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ
               </p>
               <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: اے اللہ، مجھے دوزخ کی آگ से بچا۔)
+                (ترجمہ: اے اللہ، مجھے دوزخ کی آگ سے بچا۔)
               </p>
               <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 (Translation: O Allah, save me from the fire of Hell.)
