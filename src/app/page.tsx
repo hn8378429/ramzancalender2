@@ -195,12 +195,13 @@ const RamzanCalendar = () => {
     
     // Convert back to hours and minutes
     let newHours = Math.floor(totalMinutes / 60) % 24;
-    let newMinutesValue = totalMinutes % 60; // ✅ Changed variable name to avoid conflict
+    const newMinutes = totalMinutes % 60;
     
     // Handle negative minutes
-    if (newMinutesValue < 0) {
+    let adjustedMinutes = newMinutes;
+    if (adjustedMinutes < 0) {
       newHours -= 1;
-      newMinutesValue += 60;
+      adjustedMinutes += 60;
       if (newHours < 0) {
         newHours += 24;
       }
@@ -222,7 +223,7 @@ const RamzanCalendar = () => {
     }
     
     // Format the time
-    const formattedMinutes = newMinutesValue.toString().padStart(2, '0');
+    const formattedMinutes = adjustedMinutes.toString().padStart(2, '0');
     
     return `${displayHours}:${formattedMinutes} ${newPeriod}`;
   };
@@ -278,13 +279,15 @@ const RamzanCalendar = () => {
 
     const parseTime = (timeStr: string): Date => {
       const [time, modifier] = timeStr.split(' ');
-      let [hours, minutesValue] = time.split(':').map(Number); // ✅ Changed variable name
+      const [hoursStr, minutesStr] = time.split(':');
+      let hours = parseInt(hoursStr, 10);
+      const minutes = parseInt(minutesStr, 10); // ✅ FIXED: Changed to const
       
       if (modifier === 'PM' && hours < 12) hours += 12;
       if (modifier === 'AM' && hours === 12) hours = 0;
       
       const timeDate = new Date();
-      timeDate.setHours(hours, minutesValue, 0, 0);
+      timeDate.setHours(hours, minutes, 0, 0);
       return timeDate;
     };
 
