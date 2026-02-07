@@ -731,39 +731,31 @@ const RamzanCalendar = () => {
             </button>
           </div>
 
-          {/* ✅ FIXED: Dark Mode Toggle with LARGER icons */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs whitespace-nowrap">Dark Mode</span>
-            <button
-              onClick={toggleDarkMode}
-              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                darkMode ? 'bg-blue-600' : 'bg-gray-300'
-              }`}
-            >
-              {/* Sun Icon - Shows when NOT in dark mode (Light Mode) */}
-              <div 
-                className={`absolute left-2 transition-opacity duration-300 ${
-                  !darkMode ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <span className="text-base">☀️</span>
-              </div>
-              
-              {/* Toggle Circle - Larger */}
-              <div className={`inline-block h-6 w-6 transform rounded-full bg-white transition-all duration-300 ${
-                darkMode ? 'translate-x-7' : 'translate-x-1'
-              }`} />
-              
-              {/* Moon Icon - Shows when in dark mode */}
-              <div 
-                className={`absolute right-2 transition-opacity duration-300 ${
-                  darkMode ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <span className="text-base">🌙</span>
-              </div>
-            </button>
-          </div>
+          {/* Perfect Dark Mode Toggle */}
+<div className="flex items-center gap-2">
+  <span className="text-xs whitespace-nowrap">Dark Mode</span>
+  <button
+    onClick={toggleDarkMode}
+    className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+      darkMode ? 'bg-blue-600' : 'bg-gray-300'
+    }`}
+  >
+    {/* Sun Icon - Left side */}
+    <div className="absolute left-1.5">
+      <span className="text-sm">🌙</span>
+    </div>
+    
+    {/* Moon Icon - Right side */}
+    <div className="absolute right-1.5">
+      <span className="text-sm">☀️</span>
+    </div>
+    
+    {/* Toggle Circle - Exact positioning */}
+    <div className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-md transition-transform duration-300 ${
+      darkMode ? 'translate-x-8' : 'translate-x-1'
+    }`} />
+  </button>
+</div>
         </div>
       </div>
 
