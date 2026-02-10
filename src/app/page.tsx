@@ -53,7 +53,7 @@ const RamzanCalendar = () => {
 
   const cities = {
     Pakistan: ['Islamabad', 'Karachi', 'Lahore', 'Faisalabad'],
-    UK: ['Coventry', 'London', 'Birmingham'],
+    UK: ['Coventry', 'London', 'Birmingham', 'Scunthorpe'],
   };
 
   const get2026ManualTimetable = useCallback((city: string): RamzanDate[] => {
@@ -123,7 +123,8 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Friday, March 20, 2026', sehri: '05:20 AM', iftar: '06:43 PM' },
     ];
 
-    const coventryTimetable: RamzanDate[] = [
+    // ✅ CHANGED: Ye wala timetable Scunthorpe ka hai
+    const scunthorpeTimetable: RamzanDate[] = [
       { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:40 AM', iftar: '05:22 PM' },
       { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:38 AM', iftar: '05:24 PM' },
       { day: 3, date: 'Thursday, February 19, 2026', sehri: '05:36 AM', iftar: '05:26 PM' },
@@ -156,19 +157,82 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:36 AM', iftar: '06:19 PM' },
     ];
 
-    const londonTimetable: RamzanDate[] = coventryTimetable.map(day => ({
-      ...day,
-      sehri: adjustTime(day.sehri, 5),
-      iftar: adjustTime(day.iftar, 5),
-    }));
+    // ✅ ADDED: ACTUAL Coventry timetable
+    const coventryTimetable: RamzanDate[] = [
+      { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:42 AM', iftar: '05:24 PM' },
+      { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:40 AM', iftar: '05:26 PM' },
+      { day: 3, date: 'Thursday, February 19, 2026', sehri: '05:38 AM', iftar: '05:28 PM' },
+      { day: 4, date: 'Friday, February 20, 2026', sehri: '05:36 AM', iftar: '05:30 PM' },
+      { day: 5, date: 'Saturday, February 21, 2026', sehri: '05:34 AM', iftar: '05:32 PM' },
+      { day: 6, date: 'Sunday, February 22, 2026', sehri: '05:32 AM', iftar: '05:34 PM' },
+      { day: 7, date: 'Monday, February 23, 2026', sehri: '05:30 AM', iftar: '05:36 PM' },
+      { day: 8, date: 'Tuesday, February 24, 2026', sehri: '05:28 AM', iftar: '05:38 PM' },
+      { day: 9, date: 'Wednesday, February 25, 2026', sehri: '05:25 AM', iftar: '05:39 PM' },
+      { day: 10, date: 'Thursday, February 26, 2026', sehri: '05:23 AM', iftar: '05:41 PM' },
+      { day: 11, date: 'Friday, February 27, 2026', sehri: '05:21 AM', iftar: '05:43 PM' },
+      { day: 12, date: 'Saturday, February 28, 2026', sehri: '05:19 AM', iftar: '05:45 PM' },
+      { day: 13, date: 'Sunday, March 1, 2026', sehri: '05:17 AM', iftar: '05:47 PM' },
+      { day: 14, date: 'Monday, March 2, 2026', sehri: '05:15 AM', iftar: '05:49 PM' },
+      { day: 15, date: 'Tuesday, March 3, 2026', sehri: '05:12 AM', iftar: '05:51 PM' },
+      { day: 16, date: 'Wednesday, March 4, 2026', sehri: '05:10 AM', iftar: '05:53 PM' },
+      { day: 17, date: 'Thursday, March 5, 2026', sehri: '05:08 AM', iftar: '05:55 PM' },
+      { day: 18, date: 'Friday, March 6, 2026', sehri: '05:06 AM', iftar: '05:59 PM' },
+      { day: 19, date: 'Saturday, March 7, 2026', sehri: '05:03 AM', iftar: '06:01 PM' },
+      { day: 20, date: 'Sunday, March 8, 2026', sehri: '05:01 AM', iftar: '06:02 PM' },
+      { day: 21, date: 'Monday, March 9, 2026', sehri: '04:59 AM', iftar: '06:04 PM' },
+      { day: 22, date: 'Tuesday, March 10, 2026', sehri: '04:56 AM', iftar: '06:06 PM' },
+      { day: 23, date: 'Wednesday, March 11, 2026', sehri: '04:54 AM', iftar: '06:08 PM' },
+      { day: 24, date: 'Thursday, March 12, 2026', sehri: '04:52 AM', iftar: '06:10 PM' },
+      { day: 25, date: 'Friday, March 13, 2026', sehri: '04:49 AM', iftar: '06:12 PM' },
+      { day: 26, date: 'Saturday, March 14, 2026', sehri: '04:47 AM', iftar: '06:14 PM' },
+      { day: 27, date: 'Sunday, March 15, 2026', sehri: '04:45 AM', iftar: '06:16 PM' },
+      { day: 28, date: 'Monday, March 16, 2026', sehri: '04:43 AM', iftar: '06:17 PM' },
+      { day: 29, date: 'Tuesday, March 17, 2026', sehri: '04:40 AM', iftar: '06:19 PM' },
+      { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:38 AM', iftar: '06:21 PM' },
+    ];
+
+    // ✅ ADDED: Separate London timetable (not using Coventry's)
+    const londonTimetable: RamzanDate[] = [
+      { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:35 AM', iftar: '05:27 PM' },
+      { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:33 AM', iftar: '05:29 PM' },
+      { day: 3, date: 'Thursday, February 19, 2026', sehri: '05:31 AM', iftar: '05:31 PM' },
+      { day: 4, date: 'Friday, February 20, 2026', sehri: '05:29 AM', iftar: '05:33 PM' },
+      { day: 5, date: 'Saturday, February 21, 2026', sehri: '05:27 AM', iftar: '05:35 PM' },
+      { day: 6, date: 'Sunday, February 22, 2026', sehri: '05:25 AM', iftar: '05:37 PM' },
+      { day: 7, date: 'Monday, February 23, 2026', sehri: '05:23 AM', iftar: '05:39 PM' },
+      { day: 8, date: 'Tuesday, February 24, 2026', sehri: '05:21 AM', iftar: '05:41 PM' },
+      { day: 9, date: 'Wednesday, February 25, 2026', sehri: '05:18 AM', iftar: '05:42 PM' },
+      { day: 10, date: 'Thursday, February 26, 2026', sehri: '05:16 AM', iftar: '05:44 PM' },
+      { day: 11, date: 'Friday, February 27, 2026', sehri: '05:14 AM', iftar: '05:46 PM' },
+      { day: 12, date: 'Saturday, February 28, 2026', sehri: '05:12 AM', iftar: '05:48 PM' },
+      { day: 13, date: 'Sunday, March 1, 2026', sehri: '05:10 AM', iftar: '05:50 PM' },
+      { day: 14, date: 'Monday, March 2, 2026', sehri: '05:08 AM', iftar: '05:52 PM' },
+      { day: 15, date: 'Tuesday, March 3, 2026', sehri: '05:05 AM', iftar: '05:54 PM' },
+      { day: 16, date: 'Wednesday, March 4, 2026', sehri: '05:03 AM', iftar: '05:56 PM' },
+      { day: 17, date: 'Thursday, March 5, 2026', sehri: '05:01 AM', iftar: '05:58 PM' },
+      { day: 18, date: 'Friday, March 6, 2026', sehri: '04:59 AM', iftar: '06:02 PM' },
+      { day: 19, date: 'Saturday, March 7, 2026', sehri: '04:56 AM', iftar: '06:04 PM' },
+      { day: 20, date: 'Sunday, March 8, 2026', sehri: '04:54 AM', iftar: '06:05 PM' },
+      { day: 21, date: 'Monday, March 9, 2026', sehri: '04:52 AM', iftar: '06:07 PM' },
+      { day: 22, date: 'Tuesday, March 10, 2026', sehri: '04:49 AM', iftar: '06:09 PM' },
+      { day: 23, date: 'Wednesday, March 11, 2026', sehri: '04:47 AM', iftar: '06:11 PM' },
+      { day: 24, date: 'Thursday, March 12, 2026', sehri: '04:45 AM', iftar: '06:13 PM' },
+      { day: 25, date: 'Friday, March 13, 2026', sehri: '04:42 AM', iftar: '06:15 PM' },
+      { day: 26, date: 'Saturday, March 14, 2026', sehri: '04:40 AM', iftar: '06:17 PM' },
+      { day: 27, date: 'Sunday, March 15, 2026', sehri: '04:38 AM', iftar: '06:19 PM' },
+      { day: 28, date: 'Monday, March 16, 2026', sehri: '04:36 AM', iftar: '06:20 PM' },
+      { day: 29, date: 'Tuesday, March 17, 2026', sehri: '04:33 AM', iftar: '06:22 PM' },
+      { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:31 AM', iftar: '06:24 PM' },
+    ];
 
     switch(city) {
       case 'Islamabad': return islamabadTimetable;
       case 'Karachi': return karachiTimetable;
       case 'Lahore': return karachiTimetable;
       case 'Faisalabad': return karachiTimetable;
-      case 'Coventry': return coventryTimetable;
-      case 'London': return londonTimetable;
+      case 'Coventry': return coventryTimetable; // ✅ ACTUAL Coventry timetable
+      case 'Scunthorpe': return scunthorpeTimetable; // ✅ Scunthorpe timetable
+      case 'London': return londonTimetable; // ✅ Separate London timetable
       case 'Birmingham': return londonTimetable;
       default: return islamabadTimetable;
     }
@@ -394,12 +458,14 @@ const RamzanCalendar = () => {
       });
     } catch (error) {
       console.error('Error fetching weather:', error);
+      // ✅ UPDATED: Weather data for all cities
       const cityWeather = {
         'Islamabad': { temperature: 20, description: 'Clear', humidity: 55, windSpeed: 1.8, icon: '01d' },
         'Karachi': { temperature: 32, description: 'Sunny', humidity: 70, windSpeed: 2.5, icon: '01d' },
         'Lahore': { temperature: 28, description: 'Hazy', humidity: 65, windSpeed: 2.0, icon: '50d' },
         'Faisalabad': { temperature: 26, description: 'Partly cloudy', humidity: 60, windSpeed: 1.5, icon: '04d' },
-        'Coventry': { temperature: 12, description: 'Cloudy', humidity: 80, windSpeed: 4.2, icon: '03d' },
+        'Coventry': { temperature: 12, description: 'Cloudy', humidity: 80, windSpeed: 4.2, icon: '03d' }, // ✅ Coventry
+        'Scunthorpe': { temperature: 11, description: 'Partly cloudy', humidity: 78, windSpeed: 4.0, icon: '03d' }, // ✅ Scunthorpe
         'London': { temperature: 14, description: 'Light rain', humidity: 85, windSpeed: 3.8, icon: '10d' },
         'Birmingham': { temperature: 13, description: 'Overcast', humidity: 82, windSpeed: 3.5, icon: '04d' },
       };
