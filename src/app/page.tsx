@@ -1,5 +1,4 @@
-
-export default 'use client';
+ 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface RamzanDate {
@@ -985,3 +984,7 @@ const RamzanCalendar = () => {
 };
 
 export default RamzanCalendar;
+
+
+
+
