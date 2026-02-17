@@ -64,14 +64,12 @@ const RamzanCalendar = () => {
   const [ashraToggle, setAshraToggle] = useState<boolean>(false);
   const [bismillahColor, setBismillahColor] = useState<string>('text-gray-900 dark:text-white');
   
-  // ✅ Animation states - properly used
+  // ✅ Animation states - SIMPLIFIED
   const [showRamzanMubarak, setShowRamzanMubarak] = useState<boolean>(false);
-  const [animationCity, setAnimationCity] = useState<string>('');
-  const [lastAnimationTime, setLastAnimationTime] = useState<number>(0);
   
   const currentCityRef = useRef<string>('Islamabad');
 
-  // ✅ Animation styles - 10 seconds duration
+  // ✅ Animation styles - 3 SECONDS ONLY
   const styles = `
     @keyframes walkFromRight {
       0% {
@@ -82,7 +80,7 @@ const RamzanCalendar = () => {
         transform: translateX(0);
         opacity: 1;
       }
-      90% {
+      80% {
         transform: translateX(0);
         opacity: 1;
       }
@@ -93,12 +91,12 @@ const RamzanCalendar = () => {
     }
     
     @keyframes glow {
-      0%, 100% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500; }
-      50% { text-shadow: 0 0 20px #FFD700, 0 0 40px #FFA500; }
+      0%, 100% { text-shadow: 0 0 5px #FFD700, 0 0 10px #FFA500; }
+      50% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500; }
     }
     
     .walk-animation {
-      animation: walkFromRight 10s ease-in-out forwards;
+      animation: walkFromRight 3s ease-in-out forwards;
     }
     
     .ramzan-glow {
@@ -311,37 +309,24 @@ const RamzanCalendar = () => {
     }
   }, []);
 
-  // ✅ Full month animation - Har 10 minute mein 10 seconds ke liye
-  useEffect(() => {
-    if (!ramzanStarted) return; // Sirf Ramzan ke dinon mein animation
+ // ✅ SIMPLIFIED Animation - Har 10 minute mein 3 seconds ke liye
+useEffect(() => {
+  if (!ramzanStarted) return;
+  
+  const interval = setInterval(() => {
+    setShowRamzanMubarak(true);
     
-    const triggerAnimation = () => {
-      const now = Date.now();
-      // Har 10 minutes mein animation trigger karo (600000 ms)
-      if (now - lastAnimationTime > 580000) { // 9 minutes 40 seconds
-        setShowRamzanMubarak(true);
-        setLastAnimationTime(now);
-        setAnimationCity(city); // ✅ animationCity USE kiya
-        
-        // 10 seconds ke baad animation band
-        setTimeout(() => {
-          setShowRamzanMubarak(false);
-        }, 10000);
-      }
-    };
-
-    // Pehli baar trigger karo jab component load ho
-    if (ramzanStarted) {
-      setTimeout(triggerAnimation, 5000);
-    }
-
-    // Har 10 seconds check karo
-    const interval = setInterval(triggerAnimation, 10000);
+    // 3 seconds ke baad band
+    setTimeout(() => {
+      setShowRamzanMubarak(false);
+    }, 3000);
     
-    return () => clearInterval(interval);
-  }, [ramzanStarted, lastAnimationTime, city]); // ✅ city dependency add ki
+  }, 10 * 60 * 1000); // 🔴 YAHAN CHANGE KARO - 5 ki jagah 10 karo
+  
+  return () => clearInterval(interval);
+}, [ramzanStarted]);
 
-  // ✅ First day animation - Iftar ke waqt
+  // ✅ First day animation - Sirf Iftar ke waqt ek baar
   useEffect(() => {
     if (ramzanDates.length === 0 || !city) return;
     
@@ -355,8 +340,7 @@ const RamzanCalendar = () => {
 
     const firstDay = firstRamzanDays[city];
     
-    // ✅ animationCity ko condition mein use kiya
-    if (firstDay === todayDateStr && animationCity !== city) {
+    if (firstDay === todayDateStr) {
       const firstDayData = ramzanDates[0];
       if (!firstDayData) return;
       
@@ -373,17 +357,27 @@ const RamzanCalendar = () => {
       
       const now = new Date();
       
-      if (now.getTime() >= iftarTime.getTime() && now.getTime() - iftarTime.getTime() < 60000) {
+      // Iftar ke exact time par ek baar animation
+      if (now.getTime() >= iftarTime.getTime() && now.getTime() - iftarTime.getTime() < 1000) {
         setShowRamzanMubarak(true);
-        setAnimationCity(city); // ✅ animationCity set kiya
-        setLastAnimationTime(now.getTime());
         
         setTimeout(() => {
           setShowRamzanMubarak(false);
-        }, 10000);
+        }, 3000);
       }
     }
-  }, [ramzanDates, city, animationCity]); // ✅ animationCity dependency mein include kiya
+  }, [ramzanDates, city]);
+
+  // ✅ City change par animation - Ek baar
+  useEffect(() => {
+    if (ramzanStarted) {
+      setShowRamzanMubarak(true);
+      
+      setTimeout(() => {
+        setShowRamzanMubarak(false);
+      }, 3000);
+    }
+  }, [city, ramzanStarted]);
 
   const calculateTimeRemaining = useCallback(() => {
     const cityToUse = currentCityRef.current;
@@ -866,16 +860,16 @@ const RamzanCalendar = () => {
             </div>
           </div>
           
-          {/* Animation Rectangle - Full month animation */}
-          <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700 min-h-[120px] flex items-center justify-center">
+          {/* Animation Display - 3 SECONDS ONLY */}
+          <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700 min-h-[100px] flex items-center justify-center">
             <div className="w-full overflow-hidden">
               {showRamzanMubarak ? (
                 <div className="walk-animation">
-                  <div className="text-2xl md:text-3xl font-bold ramzan-glow text-green-600 dark:text-green-400">
+                  <div className="text-xl md:text-2xl font-bold ramzan-glow text-green-600 dark:text-green-400">
                     🌙 RAMZAN MUBARAK 🌙
                   </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    {animationCity || city} | 1447 AH | Day {getCurrentDay()}
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    {city} | 1447 AH | Day {getCurrentDay()}
                   </div>
                 </div>
               ) : (
@@ -884,44 +878,31 @@ const RamzanCalendar = () => {
                     <div>
                       {currentPrayer === 'sehri' && timeToSehri ? (
                         <div>
-                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold mb-1">
-                            🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
+                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
+                            🌙 Day {getCurrentDay()}
                           </div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">⏳ Time until Sehri</p>
-                          <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">{timeToSehri}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Next: Iftar at {getIftarTime()}
-                          </p>
+                          <p className="text-sm text-gray-500">⏳ Sehri in</p>
+                          <p className="text-xl md:text-2xl font-bold text-blue-600">{timeToSehri}</p>
                         </div>
                       ) : currentPrayer === 'iftar' && timeToIftar ? (
                         <div>
-                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold mb-1">
-                            🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
+                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
+                            🌙 Day {getCurrentDay()}
                           </div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">⏳ Time until Iftar</p>
-                          <p className="text-2xl md:text-3xl font-bold text-orange-600 dark:text-orange-400">{timeToIftar}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Next: Sehri at {getSehriTime()}
-                          </p>
+                          <p className="text-sm text-gray-500">⏳ Iftar in</p>
+                          <p className="text-xl md:text-2xl font-bold text-orange-600">{timeToIftar}</p>
                         </div>
                       ) : (
                         <div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Sehri: {getSehriTime()} | Iftar: {getIftarTime()}
-                          </p>
+                          <p className="text-sm text-gray-500">🌙 Day {getCurrentDay()}</p>
+                          <p className="text-xs text-gray-500">S: {getSehriTime()} | I: {getIftarTime()}</p>
                         </div>
                       )}
                     </div>
                   ) : (
                     <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">⏳ Ramzan starts in</p>
-                      <p className="text-2xl md:text-3xl font-bold text-green-600 dark:text-green-400">
-                        {daysUntilRamzan}d {hoursUntilRamzan}h {minutesUntilRamzan}m
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {currentCityRef.current} starts on {ramzanDates[0]?.date}
-                      </p>
+                      <p className="text-sm text-gray-500">⏳ Ramzan in</p>
+                      <p className="text-xl font-bold text-green-600">{daysUntilRamzan}d {hoursUntilRamzan}h</p>
                     </div>
                   )}
                 </div>
@@ -975,6 +956,7 @@ const RamzanCalendar = () => {
         </div>
       </div>
 
+      {/* Location Modal */}
       {showCustomLocationModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className={`p-6 rounded-xl shadow-lg max-w-md w-full ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
@@ -1037,6 +1019,7 @@ const RamzanCalendar = () => {
         </div>
       )}
 
+      {/* Dua Section */}
       <div className={`mb-6 p-4 md:p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'} dua-section`}>
         <h2 className={`text-xl md:text-2xl font-bold mb-4 text-right ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           روزے کی نیت (افطار کی دعا)
@@ -1077,6 +1060,7 @@ const RamzanCalendar = () => {
         </div>
       </div>
 
+      {/* Calendar Table */}
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : ramzanDates.length > 0 ? (
@@ -1125,6 +1109,7 @@ const RamzanCalendar = () => {
         <p className="text-center text-red-600">No data available.</p>
       )}
 
+      {/* Ashra Duas */}
       <div className={`mt-6 p-4 md:p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'}`}>
         <h2 className={`text-xl md:text-2xl font-bold mb-4 text-right ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           Ashra Duas
