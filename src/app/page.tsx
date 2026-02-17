@@ -16,7 +16,7 @@ interface WeatherData {
   icon: string;
 }
 
-// ✅ Har city ka first day of Ramzan
+// ✅ Har city ka first day of Ramzan - UPDATED for UK (18 Feb)
 const firstRamzanDays: Record<string, string> = {
   // Pakistan Cities
   'Islamabad': 'Thursday, February 19, 2026',
@@ -24,11 +24,11 @@ const firstRamzanDays: Record<string, string> = {
   'Lahore': 'Thursday, February 19, 2026',
   'Faisalabad': 'Thursday, February 19, 2026',
   
-  // UK Cities
-  'Coventry': 'Tuesday, February 17, 2026',
-  'Scunthorpe': 'Tuesday, February 17, 2026',
-  'London': 'Tuesday, February 17, 2026',
-  'Birmingham': 'Tuesday, February 17, 2026',
+  // UK Cities - 18 Feb
+  'Coventry': 'Wednesday, February 18, 2026',
+  'Scunthorpe': 'Wednesday, February 18, 2026',
+  'London': 'Wednesday, February 18, 2026',
+  'Birmingham': 'Wednesday, February 18, 2026',
 };
 
 const RamzanCalendar = () => {
@@ -64,24 +64,25 @@ const RamzanCalendar = () => {
   const [ashraToggle, setAshraToggle] = useState<boolean>(false);
   const [bismillahColor, setBismillahColor] = useState<string>('text-gray-900 dark:text-white');
   
-  // Animation states
+  // ✅ Animation states - Full month ke liye
   const [showRamzanMubarak, setShowRamzanMubarak] = useState<boolean>(false);
   const [animationCity, setAnimationCity] = useState<string>('');
+  const [lastAnimationTime, setLastAnimationTime] = useState<number>(0);
   
   const currentCityRef = useRef<string>('Islamabad');
 
-  // Animation styles
+  // ✅ Animation styles - 10 seconds duration
   const styles = `
     @keyframes walkFromRight {
       0% {
         transform: translateX(100%);
         opacity: 0;
       }
-      20% {
+      10% {
         transform: translateX(0);
         opacity: 1;
       }
-      80% {
+      90% {
         transform: translateX(0);
         opacity: 1;
       }
@@ -97,7 +98,7 @@ const RamzanCalendar = () => {
     }
     
     .walk-animation {
-      animation: walkFromRight 6s ease-in-out forwards;
+      animation: walkFromRight 10s ease-in-out forwards;
     }
     
     .ramzan-glow {
@@ -189,7 +190,7 @@ const RamzanCalendar = () => {
       iftar: item.iftar
     }));
 
-     // ✅ UPDATED: Coventry timetable - now starts from 18 Feb
+    // Coventry timetable - starts from 18 Feb
     const coventryTimetable: RamzanDate[] = [
       { day: 1, date: 'Wednesday, February 18, 2026', sehri: '05:32 AM', iftar: '05:26 PM' },
       { day: 2, date: 'Thursday, February 19, 2026', sehri: '05:30 AM', iftar: '05:28 PM' },
@@ -223,7 +224,7 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Thursday, March 19, 2026', sehri: '04:28 AM', iftar: '06:21 PM' },
     ];
 
-    // ✅ UPDATED: Scunthorpe timetable - now starts from 18 Feb
+    // Scunthorpe timetable - starts from 18 Feb
     const scunthorpeTimetable: RamzanDate[] = [
       { day: 1, date: 'Wednesday, February 18, 2026', sehri: '05:38 AM', iftar: '05:24 PM' },
       { day: 2, date: 'Thursday, February 19, 2026', sehri: '05:36 AM', iftar: '05:26 PM' },
@@ -257,7 +258,7 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Thursday, March 19, 2026', sehri: '04:34 AM', iftar: '06:19 PM' },
     ];
 
-    // ✅ UPDATED: London timetable - now starts from 18 Feb
+    // London timetable - starts from 18 Feb
     const londonTimetable: RamzanDate[] = [
       { day: 1, date: 'Wednesday, February 18, 2026', sehri: '05:17 AM', iftar: '05:21 PM' },
       { day: 2, date: 'Thursday, February 19, 2026', sehri: '05:15 AM', iftar: '05:23 PM' },
@@ -309,6 +310,79 @@ const RamzanCalendar = () => {
       default: return islamabadTimetable;
     }
   }, []);
+
+  // ✅ NEW: Full month animation - Har 10 minutes mein 10 seconds ke liye
+  useEffect(() => {
+    if (!ramzanStarted) return; // Sirf Ramzan ke dinon mein animation
+    
+    const triggerAnimation = () => {
+      const now = Date.now();
+      // Har 10 minutes mein animation trigger karo (600000 ms)
+      // Last animation ko 8 seconds pehle trigger kiya tha to dobara na ho
+      if (now - lastAnimationTime > 580000) { // 9 minutes 40 seconds
+        setShowRamzanMubarak(true);
+        setLastAnimationTime(now);
+        
+        // 10 seconds ke baad animation band
+        setTimeout(() => {
+          setShowRamzanMubarak(false);
+        }, 10000);
+      }
+    };
+
+    // Pehli baar trigger karo jab component load ho
+    if (ramzanStarted) {
+      setTimeout(triggerAnimation, 5000); // 5 seconds wait karo
+    }
+
+    // Har 10 seconds check karo
+    const interval = setInterval(triggerAnimation, 10000);
+    
+    return () => clearInterval(interval);
+  }, [ramzanStarted, lastAnimationTime]);
+
+  // ✅ First day animation - Iftar ke waqt bhi chalegi
+  useEffect(() => {
+    if (ramzanDates.length === 0 || !city) return;
+    
+    const today = new Date();
+    const todayDateStr = today.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    const firstDay = firstRamzanDays[city];
+    
+    if (firstDay === todayDateStr) {
+      const firstDayData = ramzanDates[0];
+      if (!firstDayData) return;
+      
+      const [time, modifier] = firstDayData.iftar.split(' ');
+      const [hoursStr, minutesStr] = time.split(':');
+      let iftarHours = parseInt(hoursStr, 10);
+      const iftarMinutes = parseInt(minutesStr, 10);
+      
+      if (modifier === 'PM' && iftarHours < 12) iftarHours += 12;
+      if (modifier === 'AM' && iftarHours === 12) iftarHours = 0;
+      
+      const iftarTime = new Date();
+      iftarTime.setHours(iftarHours, iftarMinutes, 0, 0);
+      
+      const now = new Date();
+      
+      if (now.getTime() >= iftarTime.getTime() && now.getTime() - iftarTime.getTime() < 60000) {
+        setShowRamzanMubarak(true);
+        setAnimationCity(city);
+        setLastAnimationTime(now.getTime());
+        
+        setTimeout(() => {
+          setShowRamzanMubarak(false);
+        }, 10000);
+      }
+    }
+  }, [ramzanDates, city]);
 
   const calculateTimeRemaining = useCallback(() => {
     const cityToUse = currentCityRef.current;
@@ -423,51 +497,6 @@ const RamzanCalendar = () => {
     }
   }, [get2026ManualTimetable]);
 
-  // ✅ Check if today is first day of Ramzan for this city
-  useEffect(() => {
-    if (ramzanDates.length === 0 || !city) return;
-    
-    const today = new Date();
-    const todayDateStr = today.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-
-    // Check if today is first day of Ramzan
-    const firstDay = firstRamzanDays[city];
-    
-    if (firstDay === todayDateStr) {
-      // Get iftar time for first day
-      const firstDayData = ramzanDates[0];
-      if (!firstDayData) return;
-      
-      const [time, modifier] = firstDayData.iftar.split(' ');
-      const [hoursStr, minutesStr] = time.split(':');
-      let iftarHours = parseInt(hoursStr, 10);
-      const iftarMinutes = parseInt(minutesStr, 10);
-      
-      if (modifier === 'PM' && iftarHours < 12) iftarHours += 12;
-      if (modifier === 'AM' && iftarHours === 12) iftarHours = 0;
-      
-      const iftarTime = new Date();
-      iftarTime.setHours(iftarHours, iftarMinutes, 0, 0);
-      
-      const now = new Date();
-      
-      // ✅ Show animation after Iftar time (Maghrib) on first day
-      if (now.getTime() >= iftarTime.getTime() && animationCity !== city) {
-        setShowRamzanMubarak(true);
-        setAnimationCity(city);
-        
-        setTimeout(() => {
-          setShowRamzanMubarak(false);
-        }, 6000);
-      }
-    }
-  }, [ramzanDates, city, animationCity]);
-
   const loadCalendarData = useCallback(() => {
     setLoading(true);
     try {
@@ -557,13 +586,12 @@ const RamzanCalendar = () => {
               let userCountry = data.address.country || 'Pakistan';
               let userCity = data.address.city || data.address.town || data.address.village || data.address.county || 'Islamabad';
               
-              // Convert country names to match cities object
               if (userCountry.includes('United Kingdom') || userCountry.includes('England') || userCountry.includes('UK')) {
                 userCountry = 'UK';
               } else if (userCountry.includes('Pakistan')) {
                 userCountry = 'Pakistan';
               } else {
-                userCountry = 'Pakistan'; // Default
+                userCountry = 'Pakistan';
               }
               
               userCity = userCity.replace(' Division', '').split(',')[0].trim();
@@ -692,7 +720,6 @@ const RamzanCalendar = () => {
     window.print();
   };
 
-  // Helper functions for display
   const getCurrentDay = (): number => {
     const today = new Date();
     const todayStr = today.toLocaleDateString('en-US', {
@@ -838,7 +865,7 @@ const RamzanCalendar = () => {
             </div>
           </div>
           
-          {/* Animation Rectangle - Shows on first day after Iftar */}
+          {/* Animation Rectangle - Full month animation */}
           <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700 min-h-[120px] flex items-center justify-center">
             <div className="w-full overflow-hidden">
               {showRamzanMubarak ? (
@@ -847,7 +874,7 @@ const RamzanCalendar = () => {
                     🌙 RAMZAN MUBARAK 🌙
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    {city} | 1447 AH
+                    {city} | 1447 AH | Day {getCurrentDay()}
                   </div>
                 </div>
               ) : (
@@ -876,22 +903,11 @@ const RamzanCalendar = () => {
                             Next: Sehri at {getSehriTime()}
                           </p>
                         </div>
-                      ) : timeToSehri ? (
-                        <div>
-                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold mb-1">
-                            🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
-                          </div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">⏳ Time until Sehri</p>
-                          <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">{timeToSehri}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Next: Iftar at {getIftarTime()}
-                          </p>
-                        </div>
                       ) : (
                         <div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Ramzan Mubarak! Day {getCurrentDay()}</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙</p>
                           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Next: Sehri at {getSehriTime()}
+                            Sehri: {getSehriTime()} | Iftar: {getIftarTime()}
                           </p>
                         </div>
                       )}
@@ -975,11 +991,8 @@ const RamzanCalendar = () => {
                   onChange={(e) => {
                     const newCountry = e.target.value;
                     setCustomCountry(newCountry);
-                    // Safely set first city of selected country
                     if (cities[newCountry as keyof typeof cities]?.length > 0) {
                       setCustomCity(cities[newCountry as keyof typeof cities][0]);
-                    } else {
-                      setCustomCity('Islamabad');
                     }
                   }}
                   className={`w-full p-2 border rounded-lg ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300'}`}
@@ -998,13 +1011,9 @@ const RamzanCalendar = () => {
                   onChange={(e) => setCustomCity(e.target.value)}
                   className={`w-full p-2 border rounded-lg ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300'}`}
                 >
-                  {cities[customCountry as keyof typeof cities] ? (
-                    cities[customCountry as keyof typeof cities].map(city => (
-                      <option key={city} value={city}>{city}</option>
-                    ))
-                  ) : (
-                    <option value="Islamabad">Islamabad</option>
-                  )}
+                  {cities[customCountry as keyof typeof cities]?.map(city => (
+                    <option key={city} value={city}>{city}</option>
+                  ))}
                 </select>
               </div>
             </div>
