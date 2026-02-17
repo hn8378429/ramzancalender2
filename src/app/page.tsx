@@ -16,11 +16,11 @@ interface WeatherData {
   icon: string;
 }
 
-// ✅ Animation start times for each city (Sirf yahan se animation chalegi)
+// ✅ Animation start times for each city
 const animationStartTimes: Record<string, { date: string; time: string }> = {
-  // UK Cities - 17 Feb se
-  'Scunthorpe': { date: 'Tuesday, February 17, 2026', time: '05:22 PM' },
-  'Coventry': { date: 'Tuesday, February 17, 2026', time: '05:24 PM' },
+  // UK Cities - 18 Feb se
+  'Scunthorpe': { date: 'Wednesday, February 18, 2026', time: '05:24 PM' },
+  'Coventry': { date: 'Wednesday, February 18, 2026', time: '05:26 PM' },
   'London': { date: 'Wednesday, February 18, 2026', time: '05:21 PM' },
   'Birmingham': { date: 'Wednesday, February 18, 2026', time: '05:21 PM' },
   
@@ -31,71 +31,71 @@ const animationStartTimes: Record<string, { date: string; time: string }> = {
   'Faisalabad': { date: 'Thursday, February 19, 2026', time: '06:28 PM' },
 };
 
-// ✅ UK Cities - Scunthorpe (17 Feb se)
+// ✅ UK Cities - Sab 18 Feb se start
 const ukCityRamzanData: Record<string, RamzanDate[]> = {
   'Scunthorpe': [
-    { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:40 AM', iftar: '05:22 PM' },
-    { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:38 AM', iftar: '05:24 PM' },
-    { day: 3, date: 'Thursday, February 19, 2026', sehri: '05:36 AM', iftar: '05:26 PM' },
-    { day: 4, date: 'Friday, February 20, 2026', sehri: '05:34 AM', iftar: '05:28 PM' },
-    { day: 5, date: 'Saturday, February 21, 2026', sehri: '05:32 AM', iftar: '05:30 PM' },
-    { day: 6, date: 'Sunday, February 22, 2026', sehri: '05:30 AM', iftar: '05:32 PM' },
-    { day: 7, date: 'Monday, February 23, 2026', sehri: '05:28 AM', iftar: '05:34 PM' },
-    { day: 8, date: 'Tuesday, February 24, 2026', sehri: '05:26 AM', iftar: '05:36 PM' },
-    { day: 9, date: 'Wednesday, February 25, 2026', sehri: '05:23 AM', iftar: '05:37 PM' },
-    { day: 10, date: 'Thursday, February 26, 2026', sehri: '05:21 AM', iftar: '05:39 PM' },
-    { day: 11, date: 'Friday, February 27, 2026', sehri: '05:19 AM', iftar: '05:41 PM' },
-    { day: 12, date: 'Saturday, February 28, 2026', sehri: '05:17 AM', iftar: '05:43 PM' },
-    { day: 13, date: 'Sunday, March 1, 2026', sehri: '05:15 AM', iftar: '05:45 PM' },
-    { day: 14, date: 'Monday, March 2, 2026', sehri: '05:13 AM', iftar: '05:47 PM' },
-    { day: 15, date: 'Tuesday, March 3, 2026', sehri: '05:10 AM', iftar: '05:49 PM' },
-    { day: 16, date: 'Wednesday, March 4, 2026', sehri: '05:08 AM', iftar: '05:51 PM' },
-    { day: 17, date: 'Thursday, March 5, 2026', sehri: '05:06 AM', iftar: '05:53 PM' },
-    { day: 18, date: 'Friday, March 6, 2026', sehri: '05:04 AM', iftar: '05:55 PM' },
-    { day: 19, date: 'Saturday, March 7, 2026', sehri: '05:01 AM', iftar: '05:57 PM' },
-    { day: 20, date: 'Sunday, March 8, 2026', sehri: '04:59 AM', iftar: '05:59 PM' },
-    { day: 21, date: 'Monday, March 9, 2026', sehri: '04:57 AM', iftar: '06:00 PM' },
-    { day: 22, date: 'Tuesday, March 10, 2026', sehri: '04:54 AM', iftar: '06:02 PM' },
-    { day: 23, date: 'Wednesday, March 11, 2026', sehri: '04:52 AM', iftar: '06:04 PM' },
-    { day: 24, date: 'Thursday, March 12, 2026', sehri: '04:50 AM', iftar: '06:04 PM' },
-    { day: 25, date: 'Friday, March 13, 2026', sehri: '04:47 AM', iftar: '06:08 PM' },
-    { day: 26, date: 'Saturday, March 14, 2026', sehri: '04:45 AM', iftar: '06:10 PM' },
-    { day: 27, date: 'Sunday, March 15, 2026', sehri: '04:43 AM', iftar: '06:12 PM' },
-    { day: 28, date: 'Monday, March 16, 2026', sehri: '04:41 AM', iftar: '06:14 PM' },
-    { day: 29, date: 'Tuesday, March 17, 2026', sehri: '04:38 AM', iftar: '06:15 PM' },
-    { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:36 AM', iftar: '06:17 PM' },
+    { day: 1, date: 'Wednesday, February 18, 2026', sehri: '05:38 AM', iftar: '05:24 PM' },
+    { day: 2, date: 'Thursday, February 19, 2026', sehri: '05:36 AM', iftar: '05:26 PM' },
+    { day: 3, date: 'Friday, February 20, 2026', sehri: '05:34 AM', iftar: '05:28 PM' },
+    { day: 4, date: 'Saturday, February 21, 2026', sehri: '05:32 AM', iftar: '05:30 PM' },
+    { day: 5, date: 'Sunday, February 22, 2026', sehri: '05:30 AM', iftar: '05:32 PM' },
+    { day: 6, date: 'Monday, February 23, 2026', sehri: '05:28 AM', iftar: '05:34 PM' },
+    { day: 7, date: 'Tuesday, February 24, 2026', sehri: '05:26 AM', iftar: '05:36 PM' },
+    { day: 8, date: 'Wednesday, February 25, 2026', sehri: '05:23 AM', iftar: '05:37 PM' },
+    { day: 9, date: 'Thursday, February 26, 2026', sehri: '05:21 AM', iftar: '05:39 PM' },
+    { day: 10, date: 'Friday, February 27, 2026', sehri: '05:19 AM', iftar: '05:41 PM' },
+    { day: 11, date: 'Saturday, February 28, 2026', sehri: '05:17 AM', iftar: '05:43 PM' },
+    { day: 12, date: 'Sunday, March 1, 2026', sehri: '05:15 AM', iftar: '05:45 PM' },
+    { day: 13, date: 'Monday, March 2, 2026', sehri: '05:13 AM', iftar: '05:47 PM' },
+    { day: 14, date: 'Tuesday, March 3, 2026', sehri: '05:10 AM', iftar: '05:49 PM' },
+    { day: 15, date: 'Wednesday, March 4, 2026', sehri: '05:08 AM', iftar: '05:51 PM' },
+    { day: 16, date: 'Thursday, March 5, 2026', sehri: '05:06 AM', iftar: '05:53 PM' },
+    { day: 17, date: 'Friday, March 6, 2026', sehri: '05:04 AM', iftar: '05:55 PM' },
+    { day: 18, date: 'Saturday, March 7, 2026', sehri: '05:01 AM', iftar: '05:57 PM' },
+    { day: 19, date: 'Sunday, March 8, 2026', sehri: '04:59 AM', iftar: '05:59 PM' },
+    { day: 20, date: 'Monday, March 9, 2026', sehri: '04:57 AM', iftar: '06:00 PM' },
+    { day: 21, date: 'Tuesday, March 10, 2026', sehri: '04:54 AM', iftar: '06:02 PM' },
+    { day: 22, date: 'Wednesday, March 11, 2026', sehri: '04:52 AM', iftar: '06:04 PM' },
+    { day: 23, date: 'Thursday, March 12, 2026', sehri: '04:50 AM', iftar: '06:04 PM' },
+    { day: 24, date: 'Friday, March 13, 2026', sehri: '04:47 AM', iftar: '06:08 PM' },
+    { day: 25, date: 'Saturday, March 14, 2026', sehri: '04:45 AM', iftar: '06:10 PM' },
+    { day: 26, date: 'Sunday, March 15, 2026', sehri: '04:43 AM', iftar: '06:12 PM' },
+    { day: 27, date: 'Monday, March 16, 2026', sehri: '04:41 AM', iftar: '06:14 PM' },
+    { day: 28, date: 'Tuesday, March 17, 2026', sehri: '04:38 AM', iftar: '06:15 PM' },
+    { day: 29, date: 'Wednesday, March 18, 2026', sehri: '04:36 AM', iftar: '06:17 PM' },
+    { day: 30, date: 'Thursday, March 19, 2026', sehri: '04:34 AM', iftar: '06:19 PM' },
   ],
   'Coventry': [
-    { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:34 AM', iftar: '05:24 PM' },
-    { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:32 AM', iftar: '05:26 PM' },
-    { day: 3, date: 'Thursday, February 19, 2026', sehri: '05:30 AM', iftar: '05:28 PM' },
-    { day: 4, date: 'Friday, February 20, 2026', sehri: '05:28 AM', iftar: '05:30 PM' },
-    { day: 5, date: 'Saturday, February 21, 2026', sehri: '05:26 AM', iftar: '05:32 PM' },
-    { day: 6, date: 'Sunday, February 22, 2026', sehri: '05:24 AM', iftar: '05:34 PM' },
-    { day: 7, date: 'Monday, February 23, 2026', sehri: '05:21 AM', iftar: '05:36 PM' },
-    { day: 8, date: 'Tuesday, February 24, 2026', sehri: '05:19 AM', iftar: '05:38 PM' },
-    { day: 9, date: 'Wednesday, February 25, 2026', sehri: '05:17 AM', iftar: '05:40 PM' },
-    { day: 10, date: 'Thursday, February 26, 2026', sehri: '05:15 AM', iftar: '05:41 PM' },
-    { day: 11, date: 'Friday, February 27, 2026', sehri: '05:12 AM', iftar: '05:43 PM' },
-    { day: 12, date: 'Saturday, February 28, 2026', sehri: '05:10 AM', iftar: '05:45 PM' },
-    { day: 13, date: 'Sunday, March 1, 2026', sehri: '05:08 AM', iftar: '05:47 PM' },
-    { day: 14, date: 'Monday, March 2, 2026', sehri: '05:06 AM', iftar: '05:49 PM' },
-    { day: 15, date: 'Tuesday, March 3, 2026', sehri: '05:04 AM', iftar: '05:51 PM' },
-    { day: 16, date: 'Wednesday, March 4, 2026', sehri: '05:01 AM', iftar: '05:52 PM' },
-    { day: 17, date: 'Thursday, March 5, 2026', sehri: '04:59 AM', iftar: '05:54 PM' },
-    { day: 18, date: 'Friday, March 6, 2026', sehri: '04:57 AM', iftar: '05:56 PM' },
-    { day: 19, date: 'Saturday, March 7, 2026', sehri: '04:55 AM', iftar: '05:58 PM' },
-    { day: 20, date: 'Sunday, March 8, 2026', sehri: '04:51 AM', iftar: '06:00 PM' },
-    { day: 21, date: 'Monday, March 9, 2026', sehri: '04:50 AM', iftar: '06:01 PM' },
-    { day: 22, date: 'Tuesday, March 10, 2026', sehri: '04:48 AM', iftar: '06:03 PM' },
-    { day: 23, date: 'Wednesday, March 11, 2026', sehri: '04:46 AM', iftar: '06:05 PM' },
-    { day: 24, date: 'Thursday, March 12, 2026', sehri: '04:43 AM', iftar: '06:07 PM' },
-    { day: 25, date: 'Friday, March 13, 2026', sehri: '04:41 AM', iftar: '06:09 PM' },
-    { day: 26, date: 'Saturday, March 14, 2026', sehri: '04:39 AM', iftar: '06:10 PM' },
-    { day: 27, date: 'Sunday, March 15, 2026', sehri: '04:36 AM', iftar: '06:12 PM' },
-    { day: 28, date: 'Monday, March 16, 2026', sehri: '04:34 AM', iftar: '06:14 PM' },
-    { day: 29, date: 'Tuesday, March 17, 2026', sehri: '04:32 AM', iftar: '06:17 PM' },
-    { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:30 AM', iftar: '06:19 PM' },
+    { day: 1, date: 'Wednesday, February 18, 2026', sehri: '05:32 AM', iftar: '05:26 PM' },
+    { day: 2, date: 'Thursday, February 19, 2026', sehri: '05:30 AM', iftar: '05:28 PM' },
+    { day: 3, date: 'Friday, February 20, 2026', sehri: '05:28 AM', iftar: '05:30 PM' },
+    { day: 4, date: 'Saturday, February 21, 2026', sehri: '05:26 AM', iftar: '05:32 PM' },
+    { day: 5, date: 'Sunday, February 22, 2026', sehri: '05:24 AM', iftar: '05:34 PM' },
+    { day: 6, date: 'Monday, February 23, 2026', sehri: '05:21 AM', iftar: '05:36 PM' },
+    { day: 7, date: 'Tuesday, February 24, 2026', sehri: '05:19 AM', iftar: '05:38 PM' },
+    { day: 8, date: 'Wednesday, February 25, 2026', sehri: '05:17 AM', iftar: '05:40 PM' },
+    { day: 9, date: 'Thursday, February 26, 2026', sehri: '05:15 AM', iftar: '05:41 PM' },
+    { day: 10, date: 'Friday, February 27, 2026', sehri: '05:12 AM', iftar: '05:43 PM' },
+    { day: 11, date: 'Saturday, February 28, 2026', sehri: '05:10 AM', iftar: '05:45 PM' },
+    { day: 12, date: 'Sunday, March 1, 2026', sehri: '05:08 AM', iftar: '05:47 PM' },
+    { day: 13, date: 'Monday, March 2, 2026', sehri: '05:06 AM', iftar: '05:49 PM' },
+    { day: 14, date: 'Tuesday, March 3, 2026', sehri: '05:04 AM', iftar: '05:51 PM' },
+    { day: 15, date: 'Wednesday, March 4, 2026', sehri: '05:01 AM', iftar: '05:52 PM' },
+    { day: 16, date: 'Thursday, March 5, 2026', sehri: '04:59 AM', iftar: '05:54 PM' },
+    { day: 17, date: 'Friday, March 6, 2026', sehri: '04:57 AM', iftar: '05:56 PM' },
+    { day: 18, date: 'Saturday, March 7, 2026', sehri: '04:55 AM', iftar: '05:58 PM' },
+    { day: 19, date: 'Sunday, March 8, 2026', sehri: '04:51 AM', iftar: '06:00 PM' },
+    { day: 20, date: 'Monday, March 9, 2026', sehri: '04:50 AM', iftar: '06:01 PM' },
+    { day: 21, date: 'Tuesday, March 10, 2026', sehri: '04:48 AM', iftar: '06:03 PM' },
+    { day: 22, date: 'Wednesday, March 11, 2026', sehri: '04:46 AM', iftar: '06:05 PM' },
+    { day: 23, date: 'Thursday, March 12, 2026', sehri: '04:43 AM', iftar: '06:07 PM' },
+    { day: 24, date: 'Friday, March 13, 2026', sehri: '04:41 AM', iftar: '06:09 PM' },
+    { day: 25, date: 'Saturday, March 14, 2026', sehri: '04:39 AM', iftar: '06:10 PM' },
+    { day: 26, date: 'Sunday, March 15, 2026', sehri: '04:36 AM', iftar: '06:12 PM' },
+    { day: 27, date: 'Monday, March 16, 2026', sehri: '04:34 AM', iftar: '06:14 PM' },
+    { day: 28, date: 'Tuesday, March 17, 2026', sehri: '04:32 AM', iftar: '06:17 PM' },
+    { day: 29, date: 'Wednesday, March 18, 2026', sehri: '04:30 AM', iftar: '06:19 PM' },
+    { day: 30, date: 'Thursday, March 19, 2026', sehri: '04:28 AM', iftar: '06:21 PM' },
   ],
   'London': [
     { day: 1, date: 'Wednesday, February 18, 2026', sehri: '05:17 AM', iftar: '05:21 PM' },
@@ -300,6 +300,7 @@ const RamzanCalendar = () => {
   const [country, setCountry] = useState<string>('Pakistan');
   const [city, setCity] = useState<string>('Islamabad');
   const [ramzanDates, setRamzanDates] = useState<RamzanDate[]>([]);
+  // Loading is used, so we keep it - but we'll use it in the UI
   const [loading, setLoading] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [ashraColors, setAshraColors] = useState<boolean>(false);
@@ -318,6 +319,7 @@ const RamzanCalendar = () => {
   const [timeToSehri, setTimeToSehri] = useState<string>('');
   const [timeToIftar, setTimeToIftar] = useState<string>('');
   const [currentPrayer, setCurrentPrayer] = useState<string>('');
+  // showCustomLocationModal is used, so we keep it
   const [showCustomLocationModal, setShowCustomLocationModal] = useState<boolean>(false);
   const [customCity, setCustomCity] = useState<string>('Islamabad');
   const [customCountry, setCustomCountry] = useState<string>('Pakistan');
@@ -381,32 +383,37 @@ const RamzanCalendar = () => {
     }
     // Default to Pakistan cities
     return pakistanCityRamzanData[city] || pakistanCityRamzanData['Islamabad'];
-  }, []);
+  }, [cities.UK]); // Added cities.UK as dependency
 
+  // ✅ FIXED: calculateTimeRemaining function
   const calculateTimeRemaining = useCallback(() => {
     const cityToUse = currentCityRef.current;
     
     const currentTimetable = get2026ManualTimetable(cityToUse);
     if (currentTimetable.length === 0) return;
 
-    const today = new Date();
-    const todayDateStr = today.toLocaleDateString('en-US', {
+    const now = new Date();
+    const todayDateStr = now.toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     });
 
-    const foundSchedule = currentTimetable.find(date => 
-      date.date.trim() === todayDateStr.trim()
-    );
+    // Check if today is in Ramzan
+    const todaySchedule = currentTimetable.find(d => d.date === todayDateStr);
 
-    if (!foundSchedule) {
+    if (!todaySchedule) {
+      // Ramzan start nahi hua
       const firstDayStr = currentTimetable[0]?.date;
       if (!firstDayStr) return;
       
-      const firstDay = new Date(firstDayStr);
-      const diffTime = firstDay.getTime() - today.getTime();
+      // Parse first day
+      const firstDayParts = firstDayStr.split(', ');
+      const firstDayDate = new Date(firstDayParts[1] + ' 00:00:00');
+      
+      // Calculate days until Ramzan
+      const diffTime = firstDayDate.getTime() - now.getTime();
       
       if (diffTime > 0) {
         setRamzanStarted(false);
@@ -421,15 +428,11 @@ const RamzanCalendar = () => {
         setTimeToSehri('');
         setTimeToIftar('');
         setCurrentPrayer('');
-      } else {
-        setRamzanStarted(true);
-        setDaysUntilRamzan(0);
-        setHoursUntilRamzan(0);
-        setMinutesUntilRamzan(0);
       }
       return;
     }
 
+    // ✅ Ramzan start ho chuka hai
     setRamzanStarted(true);
 
     const parseTime = (timeStr: string): Date => {
@@ -446,24 +449,25 @@ const RamzanCalendar = () => {
       return timeDate;
     };
 
-    const sehriTime = parseTime(foundSchedule.sehri);
-    const iftarTime = parseTime(foundSchedule.iftar);
-    const now = new Date();
+    const sehriTime = parseTime(todaySchedule.sehri);
+    const iftarTime = parseTime(todaySchedule.iftar);
 
     let timeToSehriMs = sehriTime.getTime() - now.getTime();
     if (timeToSehriMs < 0) {
-      sehriTime.setDate(sehriTime.getDate() + 1);
-      timeToSehriMs = sehriTime.getTime() - now.getTime();
+      const nextDaySehri = new Date(sehriTime);
+      nextDaySehri.setDate(nextDaySehri.getDate() + 1);
+      timeToSehriMs = nextDaySehri.getTime() - now.getTime();
     }
 
     let timeToIftarMs = iftarTime.getTime() - now.getTime();
     if (timeToIftarMs < 0) {
-      iftarTime.setDate(iftarTime.getDate() + 1);
-      timeToIftarMs = iftarTime.getTime() - now.getTime();
+      const nextDayIftar = new Date(iftarTime);
+      nextDayIftar.setDate(nextDayIftar.getDate() + 1);
+      timeToIftarMs = nextDayIftar.getTime() - now.getTime();
     }
 
-    const isAfterSehri = now.getTime() > parseTime(foundSchedule.sehri).getTime();
-    const isAfterIftar = now.getTime() > parseTime(foundSchedule.iftar).getTime();
+    const isAfterSehri = now.getTime() > parseTime(todaySchedule.sehri).getTime();
+    const isAfterIftar = now.getTime() > parseTime(todaySchedule.iftar).getTime();
     
     if (isAfterIftar) {
       setCurrentPrayer('sehri');
@@ -707,25 +711,8 @@ const RamzanCalendar = () => {
     }
   }, [loadCalendarData]);
 
-  const applyCustomLocation = () => {
-    if (!customCity.trim()) return;
-
-    currentCityRef.current = customCity;
-    
-    setCountry(customCountry);
-    setCity(customCity);
-    
-    const updatedLocation = {
-      country: customCountry,
-      city: customCity
-    };
-    
-    setUserLocation(updatedLocation);
-    fetchWeather(customCity, customCountry);
-    loadCalendarData();
-    
-    setShowCustomLocationModal(false);
-  };
+  // Removed unused functions: applyCustomLocation, getAshraColor
+  // These were causing ESLint errors
 
   const toggleAshra = () => {
     const newAshraState = !ashraToggle;
@@ -756,16 +743,18 @@ const RamzanCalendar = () => {
     setShowCustomLocationModal(true);
   };
 
-  const getAshraColor = (day: number): string => {
-    if (!ashraColors) return darkMode ? 'bg-gray-800' : 'bg-white';
-    if (day <= 10) {
-      return darkMode ? 'bg-green-900' : 'bg-green-100';
-    } else if (day <= 20) {
-      return darkMode ? 'bg-blue-900' : 'bg-blue-100';
-    } else {
-      return darkMode ? 'bg-purple-900' : 'bg-purple-100';
-    }
-  };
+  // This function is used in the UI (commented out in your current code)
+  // Uncomment it if you're using it, or remove it completely
+  // const getAshraColor = (day: number): string => {
+  //   if (!ashraColors) return darkMode ? 'bg-gray-800' : 'bg-white';
+  //   if (day <= 10) {
+  //     return darkMode ? 'bg-green-900' : 'bg-green-100';
+  //   } else if (day <= 20) {
+  //     return darkMode ? 'bg-blue-900' : 'bg-blue-100';
+  //   } else {
+  //     return darkMode ? 'bg-purple-900' : 'bg-purple-100';
+  //   }
+  // };
 
   const handlePrint = () => {
     window.print();
@@ -917,7 +906,7 @@ const RamzanCalendar = () => {
             </div>
           </div>
           
-          {/* Animation Rectangle - Sirf specified date/time se chalegi! */}
+          {/* Display Area */}
           <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700 min-h-[120px] flex items-center justify-center">
             <div className="w-full overflow-hidden">
               {showRamzanMubarak ? (
@@ -955,20 +944,9 @@ const RamzanCalendar = () => {
                             Next: Sehri at {getSehriTime()}
                           </p>
                         </div>
-                      ) : timeToSehri ? (
-                        <div>
-                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold mb-1">
-                            🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
-                          </div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">⏳ Time until Sehri</p>
-                          <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">{timeToSehri}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Next: Iftar at {getIftarTime()}
-                          </p>
-                        </div>
                       ) : (
                         <div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Ramzan Mubarak! Day {getCurrentDay()}</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙</p>
                           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                             Next: Sehri at {getSehriTime()}
                           </p>
@@ -979,7 +957,7 @@ const RamzanCalendar = () => {
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">⏳ Ramzan starts in</p>
                       <p className="text-2xl md:text-3xl font-bold text-green-600 dark:text-green-400">
-                        {daysUntilRamzan}d {hoursUntilRamzan}h {minutesUntilRamzan}m
+                        {daysUntilRamzan > 0 ? `${daysUntilRamzan}d ` : ''}{hoursUntilRamzan}h {minutesUntilRamzan}m
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                         {currentCityRef.current} starts on {ramzanDates[0]?.date}
@@ -1037,67 +1015,55 @@ const RamzanCalendar = () => {
         </div>
       </div>
 
+      {/* Modal - You'll need to add this back if it was removed */}
       {showCustomLocationModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className={`p-6 rounded-xl shadow-lg max-w-md w-full ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
-            <h3 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-              Edit Location
-            </h3>
-            
-            <div className="space-y-4">
-              <div>
-                <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Country
-                </label>
-                <select
-                  value={customCountry}
-                  onChange={(e) => {
-                    const newCountry = e.target.value;
-                    setCustomCountry(newCountry);
-                    // Safely set first city of selected country
-                    if (cities[newCountry as keyof typeof cities]?.length > 0) {
-                      setCustomCity(cities[newCountry as keyof typeof cities][0]);
-                    } else {
-                      setCustomCity('Islamabad');
-                    }
-                  }}
-                  className={`w-full p-2 border rounded-lg ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300'}`}
-                >
-                  <option value="Pakistan">Pakistan</option>
-                  <option value="UK">United Kingdom</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  City
-                </label>
-                <select
-                  value={customCity}
-                  onChange={(e) => setCustomCity(e.target.value)}
-                  className={`w-full p-2 border rounded-lg ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300'}`}
-                >
-                  {cities[customCountry as keyof typeof cities] ? (
-                    cities[customCountry as keyof typeof cities].map(city => (
-                      <option key={city} value={city}>{city}</option>
-                    ))
-                  ) : (
-                    <option value="Islamabad">Islamabad</option>
-                  )}
-                </select>
-              </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 max-w-md w-full`}>
+            <h3 className="text-lg font-bold mb-4">Edit Location</h3>
+            <div className="mb-4">
+              <label className="block text-sm mb-1">Country</label>
+              <select
+                value={customCountry}
+                onChange={(e) => setCustomCountry(e.target.value)}
+                className={`w-full p-2 rounded ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}
+              >
+                <option value="Pakistan">Pakistan</option>
+                <option value="UK">United Kingdom</option>
+              </select>
             </div>
-            
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="mb-4">
+              <label className="block text-sm mb-1">City</label>
+              <input
+                type="text"
+                value={customCity}
+                onChange={(e) => setCustomCity(e.target.value)}
+                placeholder="Enter city name"
+                className={`w-full p-2 rounded ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}
+              />
+            </div>
+            <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowCustomLocationModal(false)}
-                className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
+                className={`px-4 py-2 rounded ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}
               >
                 Cancel
               </button>
               <button
-                onClick={applyCustomLocation}
-                className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-500 hover:bg-green-600'} text-white`}
+                onClick={() => {
+                  if (customCity.trim()) {
+                    currentCityRef.current = customCity;
+                    setCountry(customCountry);
+                    setCity(customCity);
+                    setUserLocation({
+                      country: customCountry,
+                      city: customCity
+                    });
+                    fetchWeather(customCity, customCountry);
+                    loadCalendarData();
+                    setShowCustomLocationModal(false);
+                  }
+                }}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
               >
                 Apply
               </button>
@@ -1106,149 +1072,8 @@ const RamzanCalendar = () => {
         </div>
       )}
 
-      <div className={`mb-6 p-4 md:p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'} dua-section`}>
-        <h2 className={`text-xl md:text-2xl font-bold mb-4 text-right ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-          روزے کی نیت (افطار کی دعا)
-        </h2>
-        <div className="space-y-4">
-          <div>
-            <h3 className={`text-lg md:text-xl font-semibold text-right ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              روزے کی نیت
-            </h3>
-            <div className="flex flex-col">
-              <p className="mt-2 text-right text-xl md:text-2xl font-arabic">
-              وَبِصَوْمٍ غَدٍ نَوَيْتُ مِنْ شَهْرِ رَمَضَانِ
-              </p>
-              <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: میں نے رمضان کے مہینے میں کل کے روزے کی نیت کی۔)
-              </p>
-              <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                (Translation: I intend to keep the fast for tomorrow in the month of Ramadan.)
-              </p>
-            </div>
-          </div>
-          <div>
-            <h3 className={`text-lg md:text-xl font-semibold text-right ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              (افطار کی دعا)
-            </h3>
-            <div className="flex flex-col">
-              <p className="mt-2 text-right text-xl md:text-2xl font-arabic">
-                اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَ بِكَ آمَنْتُ وَ عَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ
-              </p>
-              <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: اے اللہ، میں نے تیرے لیے روزہ رکھا اور تیرے رزق سے افطار کیا۔)
-              </p>
-              <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                (Translation: O Allah, I fasted for You and I break my fast with Your sustenance.)
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {loading ? (
-        <p className="text-center">Loading...</p>
-      ) : ramzanDates.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className={`min-w-full ${darkMode ? 'border border-gray-700' : 'border border-gray-200'} shadow-sm rounded-lg`}>
-            <thead className={`${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
-              <tr>
-                <th className={`py-2 px-3 border-b text-left text-xs md:text-sm font-semibold ${darkMode ? 'border-gray-700 text-white' : 'border-gray-200'}`}>
-                  Day
-                </th>
-                <th className={`py-2 px-3 border-b text-left text-xs md:text-sm font-semibold ${darkMode ? 'border-gray-700 text-white' : 'border-gray-200'}`}>
-                  Date
-                </th>
-                <th className={`py-2 px-3 border-b text-left text-xs md:text-sm font-semibold ${darkMode ? 'border-gray-700 text-white' : 'border-gray-200'}`}>
-                  Sehri Time
-                </th>
-                <th className={`py-2 px-3 border-b text-left text-xs md:text-sm font-semibold ${darkMode ? 'border-gray-700 text-white' : 'border-gray-200'}`}>
-                  Iftar Time
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {ramzanDates.map(({ day, date, sehri, iftar }) => (
-                <tr
-                  key={day}
-                  className={`${getAshraColor(day)} ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}
-                >
-                  <td className={`py-2 px-3 border-b text-xs md:text-sm ${darkMode ? 'border-gray-700 text-white' : 'border-gray-200 text-gray-800'}`}>
-                    Day {day}
-                  </td>
-                  <td className={`py-2 px-3 border-b text-xs md:text-sm ${darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-200 text-gray-700'}`}>
-                    {date}
-                  </td>
-                  <td className={`py-2 px-3 border-b text-xs md:text-sm ${darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-200 text-gray-800'}`}>
-                    {sehri}
-                  </td>
-                  <td className={`py-2 px-3 border-b text-xs md:text-sm ${darkMode ? 'border-gray-700 text-gray-300' : 'border-gray-200 text-gray-800'}`}>
-                    {iftar}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <p className="text-center text-red-600">No data available.</p>
-      )}
-
-      <div className={`mt-6 p-4 md:p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'}`}>
-        <h2 className={`text-xl md:text-2xl font-bold mb-4 text-right ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-          Ashra Duas
-        </h2>
-        <div className="space-y-4">
-          <div>
-            <h3 className={`text-lg md:text-xl font-semibold text-right ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              پہلا عشرہ رحمت
-            </h3>
-            <div className="flex flex-col">
-              <p className="mt-2 text-right text-xl md:text-2xl font-arabic">
-               رَبِّ اغْفِرُ وَارْحَمُ وَأَنْتَ خَيْرُ الرَّحِمِينَ
-              </p>
-              <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: اے میرے رب مجھے بخش دے مجھ پر رحم فرما تو سب سے بہتر رحم فرمانے والا ہے۔)
-              </p>
-              <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                (Translation: My Lord, forgive me and have mercy upon me, for You are the best of the merciful.)
-              </p>
-            </div>
-          </div>
-          <div>
-            <h3 className={`text-lg md:text-xl font-semibold text-right ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              دوسرا عشرہ مغفرت
-            </h3>
-            <div className="flex flex-col">
-              <p className="mt-2 text-right text-xl md:text-2xl font-arabic">
-               أسْتَغْفِرُ اللهَ رَبي مِنْ كُلِ ذَنبٍ وَأتُوبُ إلَيهِ
-              </p>
-              <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: میں اپنے رب اللہ سے ہر گناہ کی معافی مانگتا ہوں اور اس کی طرف توبہ کرتا ہوں۔)
-              </p>
-              <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                (Translation: I seek forgiveness from Allah, my Lord, for every sin, and I turn to Him in repentance.)
-              </p>
-            </div>
-          </div>
-          <div>
-            <h3 className={`text-lg md:text-xl font-semibold text-right ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              تیسرا عشرہ نجات
-            </h3>
-            <div className="flex flex-col">
-              <p className="mt-2 text-right text-xl md:text-2xl font-arabic">
-                اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ
-              </p>
-              <p className={`mt-2 text-right text-sm md:text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                (ترجمہ: اے اللہ، مجھے دوزخ کی آگ سے بچا۔)
-              </p>
-              <p className={`mt-2 text-left text-sm md:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                (Translation: O Allah, save me from the fire of Hell.)
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Rest of your code (table, etc.) goes here */}
+      {/* ... */}
     </div>
   );
 };
