@@ -16,21 +16,6 @@ interface WeatherData {
   icon: string;
 }
 
-// ✅ Animation start times for each city
-const animationStartTimes: Record<string, { date: string; time: string }> = {
-  // UK Cities
-  'Scunthorpe': { date: 'Tuesday, February 17, 2026', time: '05:22 PM' },
-  'Coventry': { date: 'Tuesday, February 17, 2026', time: '05:24 PM' },
-  'London': { date: 'Tuesday, February 17, 2026', time: '05:27 PM' },
-  'Birmingham': { date: 'Tuesday, February 17, 2026', time: '05:27 PM' },
-  
-  // Pakistan Cities
-  'Islamabad': { date: 'Thursday, February 19, 2026', time: '05:56 PM' },
-  'Karachi': { date: 'Thursday, February 19, 2026', time: '06:28 PM' },
-  'Lahore': { date: 'Thursday, February 19, 2026', time: '06:28 PM' },
-  'Faisalabad': { date: 'Thursday, February 19, 2026', time: '06:28 PM' },
-};
-
 const RamzanCalendar = () => {
   const [year] = useState<number>(2026);
   const [country, setCountry] = useState<string>('Pakistan');
@@ -64,59 +49,11 @@ const RamzanCalendar = () => {
   const [ashraToggle, setAshraToggle] = useState<boolean>(false);
   const [bismillahColor, setBismillahColor] = useState<string>('text-gray-900 dark:text-white');
   
-  // ✅ Animation states
-  const [showRamzanMubarak, setShowRamzanMubarak] = useState<boolean>(false);
-  const [animationCity, setAnimationCity] = useState<string>('');
-  
   const currentCityRef = useRef<string>('Islamabad');
-
-  // ✅ Animation styles
-  const styles = `
-    @keyframes walkFromRight {
-      0% {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      10% {
-        transform: translateX(0);
-        opacity: 1;
-      }
-      90% {
-        transform: translateX(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateX(-100%);
-        opacity: 0;
-      }
-    }
-    
-    @keyframes glow {
-      0%, 100% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500; }
-      50% { text-shadow: 0 0 20px #FFD700, 0 0 40px #FFA500; }
-    }
-    
-    @keyframes starTwinkle {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
-    }
-    
-    .walk-animation {
-      animation: walkFromRight 22s ease-in-out forwards;
-    }
-    
-    .ramzan-glow {
-      animation: glow 2s ease-in-out infinite;
-    }
-    
-    .star {
-      animation: starTwinkle 1.5s ease-in-out infinite;
-    }
-  `;
 
   const cities = {
     Pakistan: ['Islamabad', 'Karachi', 'Lahore', 'Faisalabad'],
-    UK: ['Coventry', 'London', 'Birmingham', 'Scunthorpe'],
+    UK: ['Coventry', 'London', 'Birmingham', 'Scunthorpe'], // ✅ Scunthorpe added
   };
 
   const get2026ManualTimetable = useCallback((city: string): RamzanDate[] => {
@@ -186,6 +123,7 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Friday, March 20, 2026', sehri: '05:20 AM', iftar: '06:43 PM' },
     ];
 
+    // ✅ ACTUAL Coventry timetable (NEW)
     const coventryTimetable: RamzanDate[] = [
       { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:34 AM', iftar: '05:24 PM' },
       { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:32 AM', iftar: '05:26 PM' },
@@ -219,6 +157,7 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:30 AM', iftar: '06:19 PM' },
     ];
 
+    // ✅ Scunthorpe timetable (existing Coventry ka timetable rename kiya)
     const scunthorpeTimetable: RamzanDate[] = [
       { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:40 AM', iftar: '05:22 PM' },
       { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:38 AM', iftar: '05:24 PM' },
@@ -252,6 +191,7 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:36 AM', iftar: '06:17 PM' },
     ];
 
+    // ✅ London timetable (separate, adjustTime function nahi use karna)
     const londonTimetable: RamzanDate[] = [
       { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:35 AM', iftar: '05:27 PM' },
       { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:33 AM', iftar: '05:29 PM' },
@@ -285,69 +225,23 @@ const RamzanCalendar = () => {
       { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:31 AM', iftar: '06:24 PM' },
     ];
 
+    // ✅ REMOVED: adjustTime function completely (ESLint error fix)
+    // const adjustTime = (time: string, adjustmentMinutes: number): string => { ... }
+
     switch(city) {
       case 'Islamabad': return islamabadTimetable;
       case 'Karachi': return karachiTimetable;
       case 'Lahore': return karachiTimetable;
       case 'Faisalabad': return karachiTimetable;
-      case 'Coventry': return coventryTimetable;
-      case 'Scunthorpe': return scunthorpeTimetable;
-      case 'London': return londonTimetable;
+      case 'Coventry': return coventryTimetable; // ✅ NEW Coventry timetable
+      case 'Scunthorpe': return scunthorpeTimetable; // ✅ Scunthorpe timetable
+      case 'London': return londonTimetable; // ✅ Separate London timetable
       case 'Birmingham': return londonTimetable;
       default: return islamabadTimetable;
     }
   }, []);
 
-  // ✅ ANIMATION EFFECT - Sirf specified date and time se chalegi
-  useEffect(() => {
-    if (!city) return;
-    
-    const checkAnimation = () => {
-      const now = new Date();
-      const todayDateStr = now.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-
-      const animationTime = animationStartTimes[city];
-      if (!animationTime) return;
-
-      // Check if today is the animation start date
-      if (animationTime.date === todayDateStr) {
-        // Parse animation start time
-        const [time, modifier] = animationTime.time.split(' ');
-        const [hoursStr, minutesStr] = time.split(':');
-        let startHours = parseInt(hoursStr, 10);
-        const startMinutes = parseInt(minutesStr, 10);
-        
-        if (modifier === 'PM' && startHours < 12) startHours += 12;
-        if (modifier === 'AM' && startHours === 12) startHours = 0;
-        
-        const startTime = new Date();
-        startTime.setHours(startHours, startMinutes, 0, 0);
-        
-        // Show animation if current time >= start time AND not shown for this city yet
-        if (now.getTime() >= startTime.getTime() && animationCity !== city) {
-          setShowRamzanMubarak(true);
-          setAnimationCity(city);
-          
-          // Hide animation after 22 seconds
-          setTimeout(() => {
-            setShowRamzanMubarak(false);
-          }, 22000);
-        }
-      }
-    };
-
-    checkAnimation();
-    
-    // Check every minute
-    const interval = setInterval(checkAnimation, 60000);
-    
-    return () => clearInterval(interval);
-  }, [city, animationCity]);
+  // ✅ NO adjustTime function - ESLint error solved
 
   const calculateTimeRemaining = useCallback(() => {
     const cityToUse = currentCityRef.current;
@@ -515,6 +409,7 @@ const RamzanCalendar = () => {
       });
     } catch (error) {
       console.error('Error fetching weather:', error);
+      // ✅ UPDATED: Weather data for all cities including Scunthorpe
       const cityWeather = {
         'Islamabad': { temperature: 20, description: 'Clear', humidity: 55, windSpeed: 1.8, icon: '01d' },
         'Karachi': { temperature: 32, description: 'Sunny', humidity: 70, windSpeed: 2.5, icon: '01d' },
@@ -677,42 +572,6 @@ const RamzanCalendar = () => {
     window.print();
   };
 
-  const getCurrentDay = (): number => {
-    const today = new Date();
-    const todayStr = today.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-    const found = ramzanDates.find(d => d.date === todayStr);
-    return found ? found.day : 1;
-  };
-
-  const getSehriTime = (): string => {
-    const today = new Date();
-    const todayStr = today.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-    const found = ramzanDates.find(d => d.date === todayStr);
-    return found ? found.sehri : '05:40 AM';
-  };
-
-  const getIftarTime = (): string => {
-    const today = new Date();
-    const todayStr = today.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-    const found = ramzanDates.find(d => d.date === todayStr);
-    return found ? found.iftar : '05:22 PM';
-  };
-
   useEffect(() => {
     currentCityRef.current = 'Islamabad';
     loadCalendarData();
@@ -736,9 +595,6 @@ const RamzanCalendar = () => {
   return (
     <div className={`p-4 font-sans min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
       
-      {/* ✅ Add animation styles */}
-      <style>{styles}</style>
-
       <div className="text-center mb-6">
         <div className="text-center mb-2">
           <div className={`text-5xl md:text-6xl mb-1 md:mb-2 ${bismillahColor}`}>
@@ -823,67 +679,47 @@ const RamzanCalendar = () => {
             </div>
           </div>
           
-          {/* ✅ Display area with animation */}
-          <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700 min-h-[120px] flex items-center justify-center">
-            <div className="w-full overflow-hidden">
-              {showRamzanMubarak ? (
-                <div className="walk-animation">
-                  <div className="text-2xl md:text-3xl font-bold ramzan-glow text-green-600 dark:text-green-400">
-                    🌙 RAMZAN MUBARAK 🌙
-                  </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1 flex items-center justify-center gap-1">
-                    <span className="star">⭐</span> {city} | 1447 AH <span className="star">⭐</span>
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    May this blessed month bring peace and prosperity
-                  </div>
-                </div>
-              ) : (
+          <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700">
+            <div>
+              {ramzanStarted ? (
                 <div>
-                  {ramzanStarted ? (
+                  {currentPrayer === 'sehri' && timeToSehri ? (
                     <div>
-                      {currentPrayer === 'sehri' && timeToSehri ? (
-                        <div>
-                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold mb-1">
-                            🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
-                          </div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">⏳ Time until Sehri</p>
-                          <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">{timeToSehri}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Next: Iftar at {getIftarTime()}
-                          </p>
-                        </div>
-                      ) : currentPrayer === 'iftar' && timeToIftar ? (
-                        <div>
-                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold mb-1">
-                            🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
-                          </div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">⏳ Time until Iftar</p>
-                          <p className="text-2xl md:text-3xl font-bold text-orange-600 dark:text-orange-400">{timeToIftar}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Next: Sehri at {getSehriTime()}
-                          </p>
-                        </div>
-                      ) : (
-                        <div>
-                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Next: Sehri at {getSehriTime()}
-                          </p>
-                        </div>
-                      )}
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">⏳ Time until Sehri</p>
+                      <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">{timeToSehri}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Next: Iftar</p>
+                    </div>
+                  ) : currentPrayer === 'iftar' && timeToIftar ? (
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">⏳ Time until Iftar</p>
+                      <p className="text-2xl md:text-3xl font-bold text-orange-600 dark:text-orange-400">{timeToIftar}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Next: Sehri</p>
+                    </div>
+                  ) : timeToSehri ? (
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">⏳ Time until Sehri</p>
+                      <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">{timeToSehri}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Next: Iftar</p>
                     </div>
                   ) : (
                     <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">⏳ Ramzan starts in</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Ramzan starts in</p>
                       <p className="text-2xl md:text-3xl font-bold text-green-600 dark:text-green-400">
-                        {daysUntilRamzan > 0 ? `${daysUntilRamzan}d ` : ''}{hoursUntilRamzan}h {minutesUntilRamzan}m
+                        {daysUntilRamzan}d {hoursUntilRamzan}h {minutesUntilRamzan}m
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {currentCityRef.current} starts on {ramzanDates[0]?.date}
-                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Prepare for blessed month</p>
                     </div>
                   )}
+                </div>
+              ) : (
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">⏳ Ramzan starts in</p>
+                  <p className="text-2xl md:text-3xl font-bold text-green-600 dark:text-green-400">
+                    {daysUntilRamzan}d {hoursUntilRamzan}h {minutesUntilRamzan}m
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    {currentCityRef.current} starts on {ramzanDates[0]?.date}
+                  </p>
                 </div>
               )}
             </div>
@@ -913,25 +749,30 @@ const RamzanCalendar = () => {
           </div>
 
           {/* Perfect Dark Mode Toggle */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs whitespace-nowrap">Dark Mode</span>
-            <button
-              onClick={toggleDarkMode}
-              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                darkMode ? 'bg-blue-600' : 'bg-gray-300'
-              }`}
-            >
-              <div className="absolute left-1.5">
-                <span className="text-sm">🌙</span>
-              </div>
-              <div className="absolute right-1.5">
-                <span className="text-sm">☀️</span>
-              </div>
-              <div className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-md transition-transform duration-300 ${
-                darkMode ? 'translate-x-8' : 'translate-x-1'
-              }`} />
-            </button>
-          </div>
+<div className="flex items-center gap-2">
+  <span className="text-xs whitespace-nowrap">Dark Mode</span>
+  <button
+    onClick={toggleDarkMode}
+    className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+      darkMode ? 'bg-blue-600' : 'bg-gray-300'
+    }`}
+  >
+    {/* Sun Icon - Left side */}
+    <div className="absolute left-1.5">
+      <span className="text-sm">🌙</span>
+    </div>
+    
+    {/* Moon Icon - Right side */}
+    <div className="absolute right-1.5">
+      <span className="text-sm">☀️</span>
+    </div>
+    
+    {/* Toggle Circle - Exact positioning */}
+    <div className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-md transition-transform duration-300 ${
+      darkMode ? 'translate-x-8' : 'translate-x-1'
+    }`} />
+  </button>
+</div>
         </div>
       </div>
 
