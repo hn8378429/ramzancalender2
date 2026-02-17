@@ -16,7 +16,7 @@ interface WeatherData {
   icon: string;
 }
 
-// ✅ Har city ka first day of Ramzan - UPDATED for UK (18 Feb)
+// ✅ Har city ka first day of Ramzan - UK 18 Feb, Pakistan 19 Feb
 const firstRamzanDays: Record<string, string> = {
   // Pakistan Cities
   'Islamabad': 'Thursday, February 19, 2026',
@@ -64,7 +64,7 @@ const RamzanCalendar = () => {
   const [ashraToggle, setAshraToggle] = useState<boolean>(false);
   const [bismillahColor, setBismillahColor] = useState<string>('text-gray-900 dark:text-white');
   
-  // ✅ Animation states - Full month ke liye
+  // ✅ Animation states - properly used
   const [showRamzanMubarak, setShowRamzanMubarak] = useState<boolean>(false);
   const [animationCity, setAnimationCity] = useState<string>('');
   const [lastAnimationTime, setLastAnimationTime] = useState<number>(0);
@@ -311,17 +311,17 @@ const RamzanCalendar = () => {
     }
   }, []);
 
-  // ✅ NEW: Full month animation - Har 10 minutes mein 10 seconds ke liye
+  // ✅ Full month animation - Har 10 minute mein 10 seconds ke liye
   useEffect(() => {
     if (!ramzanStarted) return; // Sirf Ramzan ke dinon mein animation
     
     const triggerAnimation = () => {
       const now = Date.now();
       // Har 10 minutes mein animation trigger karo (600000 ms)
-      // Last animation ko 8 seconds pehle trigger kiya tha to dobara na ho
       if (now - lastAnimationTime > 580000) { // 9 minutes 40 seconds
         setShowRamzanMubarak(true);
         setLastAnimationTime(now);
+        setAnimationCity(city); // ✅ animationCity USE kiya
         
         // 10 seconds ke baad animation band
         setTimeout(() => {
@@ -332,16 +332,16 @@ const RamzanCalendar = () => {
 
     // Pehli baar trigger karo jab component load ho
     if (ramzanStarted) {
-      setTimeout(triggerAnimation, 5000); // 5 seconds wait karo
+      setTimeout(triggerAnimation, 5000);
     }
 
     // Har 10 seconds check karo
     const interval = setInterval(triggerAnimation, 10000);
     
     return () => clearInterval(interval);
-  }, [ramzanStarted, lastAnimationTime]);
+  }, [ramzanStarted, lastAnimationTime, city]); // ✅ city dependency add ki
 
-  // ✅ First day animation - Iftar ke waqt bhi chalegi
+  // ✅ First day animation - Iftar ke waqt
   useEffect(() => {
     if (ramzanDates.length === 0 || !city) return;
     
@@ -355,7 +355,8 @@ const RamzanCalendar = () => {
 
     const firstDay = firstRamzanDays[city];
     
-    if (firstDay === todayDateStr) {
+    // ✅ animationCity ko condition mein use kiya
+    if (firstDay === todayDateStr && animationCity !== city) {
       const firstDayData = ramzanDates[0];
       if (!firstDayData) return;
       
@@ -374,7 +375,7 @@ const RamzanCalendar = () => {
       
       if (now.getTime() >= iftarTime.getTime() && now.getTime() - iftarTime.getTime() < 60000) {
         setShowRamzanMubarak(true);
-        setAnimationCity(city);
+        setAnimationCity(city); // ✅ animationCity set kiya
         setLastAnimationTime(now.getTime());
         
         setTimeout(() => {
@@ -382,7 +383,7 @@ const RamzanCalendar = () => {
         }, 10000);
       }
     }
-  }, [ramzanDates, city]);
+  }, [ramzanDates, city, animationCity]); // ✅ animationCity dependency mein include kiya
 
   const calculateTimeRemaining = useCallback(() => {
     const cityToUse = currentCityRef.current;
@@ -874,7 +875,7 @@ const RamzanCalendar = () => {
                     🌙 RAMZAN MUBARAK 🌙
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    {city} | 1447 AH | Day {getCurrentDay()}
+                    {animationCity || city} | 1447 AH | Day {getCurrentDay()}
                   </div>
                 </div>
               ) : (
