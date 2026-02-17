@@ -309,22 +309,22 @@ const RamzanCalendar = () => {
     }
   }, []);
 
- // ✅ SIMPLIFIED Animation - Har 10 minute mein 3 seconds ke liye
-useEffect(() => {
-  if (!ramzanStarted) return;
-  
-  const interval = setInterval(() => {
-    setShowRamzanMubarak(true);
+  // ✅ SIMPLIFIED Animation - Har 10 minute mein 3 seconds ke liye
+  useEffect(() => {
+    if (!ramzanStarted) return;
     
-    // 3 seconds ke baad band
-    setTimeout(() => {
-      setShowRamzanMubarak(false);
-    }, 3000);
+    const interval = setInterval(() => {
+      setShowRamzanMubarak(true);
+      
+      // 3 seconds ke baad band
+      setTimeout(() => {
+        setShowRamzanMubarak(false);
+      }, 3000);
+      
+    }, 10 * 60 * 1000); // Har 10 minute
     
-  }, 10 * 60 * 1000); // 🔴 YAHAN CHANGE KARO - 5 ki jagah 10 karo
-  
-  return () => clearInterval(interval);
-}, [ramzanStarted]);
+    return () => clearInterval(interval);
+  }, [ramzanStarted]);
 
   // ✅ First day animation - Sirf Iftar ke waqt ek baar
   useEffect(() => {
@@ -902,7 +902,7 @@ useEffect(() => {
                   ) : (
                     <div>
                       <p className="text-sm text-gray-500">⏳ Ramzan in</p>
-                      <p className="text-xl font-bold text-green-600">{daysUntilRamzan}d {hoursUntilRamzan}h</p>
+                      <p className="text-xl font-bold text-green-600">{daysUntilRamzan}d {hoursUntilRamzan}h {minutesUntilRamzan}m</p>
                     </div>
                   )}
                 </div>
