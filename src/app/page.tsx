@@ -319,7 +319,7 @@ const RamzanCalendar = () => {
       // 3 seconds ke baad band
       setTimeout(() => {
         setShowRamzanMubarak(false);
-      }, 6000);
+      }, 9000);
       
     }, 10 * 1000); // Har 10 minute
     
