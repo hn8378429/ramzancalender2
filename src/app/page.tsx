@@ -321,7 +321,7 @@ const RamzanCalendar = () => {
         setShowRamzanMubarak(false);
       }, 3000);
       
-    }, 10 * 60 * 1000); // Har 10 minute
+    }, 10 * 1000); // Har 10 minute
     
     return () => clearInterval(interval);
   }, [ramzanStarted]);
@@ -864,49 +864,53 @@ const RamzanCalendar = () => {
           <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700 min-h-[100px] flex items-center justify-center">
             <div className="w-full overflow-hidden">
               {showRamzanMubarak ? (
-                <div className="walk-animation">
-                  <div className="text-xl md:text-2xl font-bold ramzan-glow text-green-600 dark:text-green-400">
-                    🌙 RAMZAN MUBARAK 🌙
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {city} | 1447 AH | Day {getCurrentDay()}
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  {ramzanStarted ? (
-                    <div>
-                      {currentPrayer === 'sehri' && timeToSehri ? (
-                        <div>
-                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
-                            🌙 Day {getCurrentDay()}
-                          </div>
-                          <p className="text-sm text-gray-500">⏳ Sehri in</p>
-                          <p className="text-xl md:text-2xl font-bold text-blue-600">{timeToSehri}</p>
-                        </div>
-                      ) : currentPrayer === 'iftar' && timeToIftar ? (
-                        <div>
-                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
-                            🌙 Day {getCurrentDay()}
-                          </div>
-                          <p className="text-sm text-gray-500">⏳ Iftar in</p>
-                          <p className="text-xl md:text-2xl font-bold text-orange-600">{timeToIftar}</p>
-                        </div>
-                      ) : (
-                        <div>
-                          <p className="text-sm text-gray-500">🌙 Day {getCurrentDay()}</p>
-                          <p className="text-xs text-gray-500">S: {getSehriTime()} | I: {getIftarTime()}</p>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div>
-                      <p className="text-sm text-gray-500">⏳ Ramzan in</p>
-                      <p className="text-xl font-bold text-green-600">{daysUntilRamzan}d {hoursUntilRamzan}h {minutesUntilRamzan}m</p>
-                    </div>
-                  )}
-                </div>
-              )}
+  <div className="walk-animation">
+    <div className="text-xl md:text-2xl font-bold ramzan-glow text-green-600 dark:text-green-400">
+      🌙 RAMZAN MUBARAK 🌙
+    </div>
+    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+      {city} | 1447 AH | Day {getCurrentDay()}
+    </div>
+  </div>
+) : (
+  <div>
+    {ramzanStarted ? (
+      <div>
+        {currentPrayer === 'sehri' && timeToSehri ? (
+          <div>
+            <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
+              🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
+            </div>
+            <p className="text-sm text-gray-500">⏳ Time until Sehri</p>
+            <p className="text-xl md:text-2xl font-bold text-blue-600">{timeToSehri}</p>
+            <p className="text-xs text-gray-500 mt-1">Next: Iftar at {getIftarTime()}</p>
+          </div>
+        ) : currentPrayer === 'iftar' && timeToIftar ? (
+          <div>
+            <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
+              🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
+            </div>
+            <p className="text-sm text-gray-500">⏳ Time until Iftar</p>
+            <p className="text-xl md:text-2xl font-bold text-orange-600">{timeToIftar}</p>
+            <p className="text-xs text-gray-500 mt-1">Next: Sehri at {getSehriTime()}</p>
+          </div>
+        ) : (
+          <div>
+            <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
+              🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
+            </div>
+            <p className="text-xs text-gray-500 mt-1">Sehri: {getSehriTime()} | Iftar: {getIftarTime()}</p>
+          </div>
+        )}
+      </div>
+    ) : (
+      <div>
+        <p className="text-sm text-gray-500">⏳ Ramzan starts in</p>
+        <p className="text-xl font-bold text-green-600">{daysUntilRamzan}d {hoursUntilRamzan}h {minutesUntilRamzan}m</p>
+      </div>
+    )}
+  </div>
+)}
             </div>
           </div>
         </div>
