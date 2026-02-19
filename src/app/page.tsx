@@ -16,7 +16,7 @@ interface WeatherData {
   icon: string;
 }
 
-// ✅ Har city ka first day of Ramzan - UK 18 Feb, Pakistan 19 Feb
+// ✅ Har city ka first day of Ramzan
 const firstRamzanDays: Record<string, string> = {
   // Pakistan Cities
   'Islamabad': 'Thursday, February 19, 2026',
@@ -24,11 +24,11 @@ const firstRamzanDays: Record<string, string> = {
   'Lahore': 'Thursday, February 19, 2026',
   'Faisalabad': 'Thursday, February 19, 2026',
   
-  // UK Cities - 18 Feb
-  'Coventry': 'Wednesday, February 18, 2026',
-  'Scunthorpe': 'Wednesday, February 18, 2026',
-  'London': 'Wednesday, February 18, 2026',
-  'Birmingham': 'Wednesday, February 18, 2026',
+  // UK Cities
+  'Coventry': 'Tuesday, February 17, 2026',
+  'Scunthorpe': 'Tuesday, February 17, 2026',
+  'London': 'Tuesday, February 17, 2026',
+  'Birmingham': 'Tuesday, February 17, 2026',
 };
 
 const RamzanCalendar = () => {
@@ -64,23 +64,24 @@ const RamzanCalendar = () => {
   const [ashraToggle, setAshraToggle] = useState<boolean>(false);
   const [bismillahColor, setBismillahColor] = useState<string>('text-gray-900 dark:text-white');
   
-  // ✅ Animation states
+  // Animation states
   const [showRamzanMubarak, setShowRamzanMubarak] = useState<boolean>(false);
+  const [animationCity, setAnimationCity] = useState<string>('');
   
   const currentCityRef = useRef<string>('Islamabad');
 
-  // ✅ Animation styles - FIXED: height issue resolved
+  // Animation styles
   const styles = `
     @keyframes walkFromRight {
       0% {
         transform: translateX(100%);
         opacity: 0;
       }
-      10% {
+      20% {
         transform: translateX(0);
         opacity: 1;
       }
-      90% {
+      80% {
         transform: translateX(0);
         opacity: 1;
       }
@@ -91,37 +92,16 @@ const RamzanCalendar = () => {
     }
     
     @keyframes glow {
-      0%, 100% { text-shadow: 0 0 5px #FFD700, 0 0 10px #FFA500; }
-      50% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500; }
-    }
-    
-    .animation-container {
-      position: relative;
-      width: 100%;
-      min-height: 80px;
-    }
-    
-    .animation-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+      0%, 100% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500; }
+      50% { text-shadow: 0 0 20px #FFD700, 0 0 40px #FFA500; }
     }
     
     .walk-animation {
-      animation: walkFromRight 3s ease-in-out forwards;
+      animation: walkFromRight 6s ease-in-out forwards;
     }
     
     .ramzan-glow {
       animation: glow 2s ease-in-out infinite;
-    }
-    
-    /* ✅ FIX: Blank area remove */
-    .countdown-content {
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
   `;
 
@@ -209,106 +189,103 @@ const RamzanCalendar = () => {
       iftar: item.iftar
     }));
 
-    // Coventry timetable - starts from 18 Feb
     const coventryTimetable: RamzanDate[] = [
-      { day: 1, date: 'Wednesday, February 18, 2026', sehri: '05:32 AM', iftar: '05:26 PM' },
-      { day: 2, date: 'Thursday, February 19, 2026', sehri: '05:30 AM', iftar: '05:28 PM' },
-      { day: 3, date: 'Friday, February 20, 2026', sehri: '05:28 AM', iftar: '05:30 PM' },
-      { day: 4, date: 'Saturday, February 21, 2026', sehri: '05:26 AM', iftar: '05:32 PM' },
-      { day: 5, date: 'Sunday, February 22, 2026', sehri: '05:24 AM', iftar: '05:34 PM' },
-      { day: 6, date: 'Monday, February 23, 2026', sehri: '05:21 AM', iftar: '05:36 PM' },
-      { day: 7, date: 'Tuesday, February 24, 2026', sehri: '05:19 AM', iftar: '05:38 PM' },
-      { day: 8, date: 'Wednesday, February 25, 2026', sehri: '05:17 AM', iftar: '05:40 PM' },
-      { day: 9, date: 'Thursday, February 26, 2026', sehri: '05:15 AM', iftar: '05:41 PM' },
-      { day: 10, date: 'Friday, February 27, 2026', sehri: '05:12 AM', iftar: '05:43 PM' },
-      { day: 11, date: 'Saturday, February 28, 2026', sehri: '05:10 AM', iftar: '05:45 PM' },
-      { day: 12, date: 'Sunday, March 1, 2026', sehri: '05:08 AM', iftar: '05:47 PM' },
-      { day: 13, date: 'Monday, March 2, 2026', sehri: '05:06 AM', iftar: '05:49 PM' },
-      { day: 14, date: 'Tuesday, March 3, 2026', sehri: '05:04 AM', iftar: '05:51 PM' },
-      { day: 15, date: 'Wednesday, March 4, 2026', sehri: '05:01 AM', iftar: '05:52 PM' },
-      { day: 16, date: 'Thursday, March 5, 2026', sehri: '04:59 AM', iftar: '05:54 PM' },
-      { day: 17, date: 'Friday, March 6, 2026', sehri: '04:57 AM', iftar: '05:56 PM' },
-      { day: 18, date: 'Saturday, March 7, 2026', sehri: '04:55 AM', iftar: '05:58 PM' },
-      { day: 19, date: 'Sunday, March 8, 2026', sehri: '04:51 AM', iftar: '06:00 PM' },
-      { day: 20, date: 'Monday, March 9, 2026', sehri: '04:50 AM', iftar: '06:01 PM' },
-      { day: 21, date: 'Tuesday, March 10, 2026', sehri: '04:48 AM', iftar: '06:03 PM' },
-      { day: 22, date: 'Wednesday, March 11, 2026', sehri: '04:46 AM', iftar: '06:05 PM' },
-      { day: 23, date: 'Thursday, March 12, 2026', sehri: '04:43 AM', iftar: '06:07 PM' },
-      { day: 24, date: 'Friday, March 13, 2026', sehri: '04:41 AM', iftar: '06:09 PM' },
-      { day: 25, date: 'Saturday, March 14, 2026', sehri: '04:39 AM', iftar: '06:10 PM' },
-      { day: 26, date: 'Sunday, March 15, 2026', sehri: '04:36 AM', iftar: '06:12 PM' },
-      { day: 27, date: 'Monday, March 16, 2026', sehri: '04:34 AM', iftar: '06:14 PM' },
-      { day: 28, date: 'Tuesday, March 17, 2026', sehri: '04:32 AM', iftar: '06:17 PM' },
-      { day: 29, date: 'Wednesday, March 18, 2026', sehri: '04:30 AM', iftar: '06:19 PM' },
-      { day: 30, date: 'Thursday, March 19, 2026', sehri: '04:28 AM', iftar: '06:21 PM' },
+      { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:34 AM', iftar: '05:24 PM' },
+      { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:32 AM', iftar: '05:26 PM' },
+      { day: 3, date: 'Thursday, February 19, 2026', sehri: '05:30 AM', iftar: '05:28 PM' },
+      { day: 4, date: 'Friday, February 20, 2026', sehri: '05:28 AM', iftar: '05:30 PM' },
+      { day: 5, date: 'Saturday, February 21, 2026', sehri: '05:26 AM', iftar: '05:32 PM' },
+      { day: 6, date: 'Sunday, February 22, 2026', sehri: '05:24 AM', iftar: '05:34 PM' },
+      { day: 7, date: 'Monday, February 23, 2026', sehri: '05:21 AM', iftar: '05:36 PM' },
+      { day: 8, date: 'Tuesday, February 24, 2026', sehri: '05:19 AM', iftar: '05:38 PM' },
+      { day: 9, date: 'Wednesday, February 25, 2026', sehri: '05:17 AM', iftar: '05:40 PM' },
+      { day: 10, date: 'Thursday, February 26, 2026', sehri: '05:15 AM', iftar: '05:41 PM' },
+      { day: 11, date: 'Friday, February 27, 2026', sehri: '05:12 AM', iftar: '05:43 PM' },
+      { day: 12, date: 'Saturday, February 28, 2026', sehri: '05:10 AM', iftar: '05:45 PM' },
+      { day: 13, date: 'Sunday, March 1, 2026', sehri: '05:08 AM', iftar: '05:47 PM' },
+      { day: 14, date: 'Monday, March 2, 2026', sehri: '05:06 AM', iftar: '05:49 PM' },
+      { day: 15, date: 'Tuesday, March 3, 2026', sehri: '05:04 AM', iftar: '05:51 PM' },
+      { day: 16, date: 'Wednesday, March 4, 2026', sehri: '05:01 AM', iftar: '05:52 PM' },
+      { day: 17, date: 'Thursday, March 5, 2026', sehri: '04:59 AM', iftar: '05:54 PM' },
+      { day: 18, date: 'Friday, March 6, 2026', sehri: '04:57 AM', iftar: '05:56 PM' },
+      { day: 19, date: 'Saturday, March 7, 2026', sehri: '04:55 AM', iftar: '05:58 PM' },
+      { day: 20, date: 'Sunday, March 8, 2026', sehri: '04:51 AM', iftar: '06:00 PM' },
+      { day: 21, date: 'Monday, March 9, 2026', sehri: '04:50 AM', iftar: '06:01 PM' },
+      { day: 22, date: 'Tuesday, March 10, 2026', sehri: '04:48 AM', iftar: '06:03 PM' },
+      { day: 23, date: 'Wednesday, March 11, 2026', sehri: '04:46 AM', iftar: '06:05 PM' },
+      { day: 24, date: 'Thursday, March 12, 2026', sehri: '04:43 AM', iftar: '06:07 PM' },
+      { day: 25, date: 'Friday, March 13, 2026', sehri: '04:41 AM', iftar: '06:09 PM' },
+      { day: 26, date: 'Saturday, March 14, 2026', sehri: '04:39 AM', iftar: '06:10 PM' },
+      { day: 27, date: 'Sunday, March 15, 2026', sehri: '04:36 AM', iftar: '06:12 PM' },
+      { day: 28, date: 'Monday, March 16, 2026', sehri: '04:34 AM', iftar: '06:14 PM' },
+      { day: 29, date: 'Tuesday, March 17, 2026', sehri: '04:32 AM', iftar: '06:17 PM' },
+      { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:30 AM', iftar: '06:19 PM' },
     ];
 
-    // Scunthorpe timetable - starts from 18 Feb
     const scunthorpeTimetable: RamzanDate[] = [
-      { day: 1, date: 'Wednesday, February 18, 2026', sehri: '05:38 AM', iftar: '05:24 PM' },
-      { day: 2, date: 'Thursday, February 19, 2026', sehri: '05:36 AM', iftar: '05:26 PM' },
-      { day: 3, date: 'Friday, February 20, 2026', sehri: '05:34 AM', iftar: '05:28 PM' },
-      { day: 4, date: 'Saturday, February 21, 2026', sehri: '05:32 AM', iftar: '05:30 PM' },
-      { day: 5, date: 'Sunday, February 22, 2026', sehri: '05:30 AM', iftar: '05:32 PM' },
-      { day: 6, date: 'Monday, February 23, 2026', sehri: '05:28 AM', iftar: '05:34 PM' },
-      { day: 7, date: 'Tuesday, February 24, 2026', sehri: '05:26 AM', iftar: '05:36 PM' },
-      { day: 8, date: 'Wednesday, February 25, 2026', sehri: '05:23 AM', iftar: '05:37 PM' },
-      { day: 9, date: 'Thursday, February 26, 2026', sehri: '05:21 AM', iftar: '05:39 PM' },
-      { day: 10, date: 'Friday, February 27, 2026', sehri: '05:19 AM', iftar: '05:41 PM' },
-      { day: 11, date: 'Saturday, February 28, 2026', sehri: '05:17 AM', iftar: '05:43 PM' },
-      { day: 12, date: 'Sunday, March 1, 2026', sehri: '05:15 AM', iftar: '05:45 PM' },
-      { day: 13, date: 'Monday, March 2, 2026', sehri: '05:13 AM', iftar: '05:47 PM' },
-      { day: 14, date: 'Tuesday, March 3, 2026', sehri: '05:10 AM', iftar: '05:49 PM' },
-      { day: 15, date: 'Wednesday, March 4, 2026', sehri: '05:08 AM', iftar: '05:51 PM' },
-      { day: 16, date: 'Thursday, March 5, 2026', sehri: '05:06 AM', iftar: '05:53 PM' },
-      { day: 17, date: 'Friday, March 6, 2026', sehri: '05:04 AM', iftar: '05:55 PM' },
-      { day: 18, date: 'Saturday, March 7, 2026', sehri: '05:01 AM', iftar: '05:57 PM' },
-      { day: 19, date: 'Sunday, March 8, 2026', sehri: '04:59 AM', iftar: '05:59 PM' },
-      { day: 20, date: 'Monday, March 9, 2026', sehri: '04:57 AM', iftar: '06:00 PM' },
-      { day: 21, date: 'Tuesday, March 10, 2026', sehri: '04:54 AM', iftar: '06:02 PM' },
-      { day: 22, date: 'Wednesday, March 11, 2026', sehri: '04:52 AM', iftar: '06:04 PM' },
-      { day: 23, date: 'Thursday, March 12, 2026', sehri: '04:50 AM', iftar: '06:04 PM' },
-      { day: 24, date: 'Friday, March 13, 2026', sehri: '04:47 AM', iftar: '06:08 PM' },
-      { day: 25, date: 'Saturday, March 14, 2026', sehri: '04:45 AM', iftar: '06:10 PM' },
-      { day: 26, date: 'Sunday, March 15, 2026', sehri: '04:43 AM', iftar: '06:12 PM' },
-      { day: 27, date: 'Monday, March 16, 2026', sehri: '04:41 AM', iftar: '06:14 PM' },
-      { day: 28, date: 'Tuesday, March 17, 2026', sehri: '04:38 AM', iftar: '06:15 PM' },
-      { day: 29, date: 'Wednesday, March 18, 2026', sehri: '04:36 AM', iftar: '06:17 PM' },
-      { day: 30, date: 'Thursday, March 19, 2026', sehri: '04:34 AM', iftar: '06:19 PM' },
+      { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:40 AM', iftar: '05:22 PM' },
+      { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:38 AM', iftar: '05:24 PM' },
+      { day: 3, date: 'Thursday, February 19, 2026', sehri: '05:36 AM', iftar: '05:26 PM' },
+      { day: 4, date: 'Friday, February 20, 2026', sehri: '05:34 AM', iftar: '05:28 PM' },
+      { day: 5, date: 'Saturday, February 21, 2026', sehri: '05:32 AM', iftar: '05:30 PM' },
+      { day: 6, date: 'Sunday, February 22, 2026', sehri: '05:30 AM', iftar: '05:32 PM' },
+      { day: 7, date: 'Monday, February 23, 2026', sehri: '05:28 AM', iftar: '05:34 PM' },
+      { day: 8, date: 'Tuesday, February 24, 2026', sehri: '05:26 AM', iftar: '05:36 PM' },
+      { day: 9, date: 'Wednesday, February 25, 2026', sehri: '05:23 AM', iftar: '05:37 PM' },
+      { day: 10, date: 'Thursday, February 26, 2026', sehri: '05:21 AM', iftar: '05:39 PM' },
+      { day: 11, date: 'Friday, February 27, 2026', sehri: '05:19 AM', iftar: '05:41 PM' },
+      { day: 12, date: 'Saturday, February 28, 2026', sehri: '05:17 AM', iftar: '05:43 PM' },
+      { day: 13, date: 'Sunday, March 1, 2026', sehri: '05:15 AM', iftar: '05:45 PM' },
+      { day: 14, date: 'Monday, March 2, 2026', sehri: '05:13 AM', iftar: '05:47 PM' },
+      { day: 15, date: 'Tuesday, March 3, 2026', sehri: '05:10 AM', iftar: '05:49 PM' },
+      { day: 16, date: 'Wednesday, March 4, 2026', sehri: '05:08 AM', iftar: '05:51 PM' },
+      { day: 17, date: 'Thursday, March 5, 2026', sehri: '05:06 AM', iftar: '05:53 PM' },
+      { day: 18, date: 'Friday, March 6, 2026', sehri: '05:04 AM', iftar: '05:55 PM' },
+      { day: 19, date: 'Saturday, March 7, 2026', sehri: '05:01 AM', iftar: '05:57 PM' },
+      { day: 20, date: 'Sunday, March 8, 2026', sehri: '04:59 AM', iftar: '05:59 PM' },
+      { day: 21, date: 'Monday, March 9, 2026', sehri: '04:57 AM', iftar: '06:00 PM' },
+      { day: 22, date: 'Tuesday, March 10, 2026', sehri: '04:54 AM', iftar: '06:02 PM' },
+      { day: 23, date: 'Wednesday, March 11, 2026', sehri: '04:52 AM', iftar: '06:04 PM' },
+      { day: 24, date: 'Thursday, March 12, 2026', sehri: '04:50 AM', iftar: '06:04 PM' },
+      { day: 25, date: 'Friday, March 13, 2026', sehri: '04:47 AM', iftar: '06:08 PM' },
+      { day: 26, date: 'Saturday, March 14, 2026', sehri: '04:45 AM', iftar: '06:10 PM' },
+      { day: 27, date: 'Sunday, March 15, 2026', sehri: '04:43 AM', iftar: '06:12 PM' },
+      { day: 28, date: 'Monday, March 16, 2026', sehri: '04:41 AM', iftar: '06:14 PM' },
+      { day: 29, date: 'Tuesday, March 17, 2026', sehri: '04:38 AM', iftar: '06:15 PM' },
+      { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:36 AM', iftar: '06:17 PM' },
     ];
 
-    // London timetable - starts from 18 Feb
     const londonTimetable: RamzanDate[] = [
-      { day: 1, date: 'Wednesday, February 18, 2026', sehri: '05:17 AM', iftar: '05:21 PM' },
-      { day: 2, date: 'Thursday, February 19, 2026', sehri: '05:15 AM', iftar: '05:23 PM' },
-      { day: 3, date: 'Friday, February 20, 2026', sehri: '05:13 AM', iftar: '05:25 PM' },
-      { day: 4, date: 'Saturday, February 21, 2026', sehri: '05:11 AM', iftar: '05:26 PM' },
-      { day: 5, date: 'Sunday, February 22, 2026', sehri: '05:09 AM', iftar: '05:28 PM' },
-      { day: 6, date: 'Monday, February 23, 2026', sehri: '05:07 AM', iftar: '05:30 PM' },
-      { day: 7, date: 'Tuesday, February 24, 2026', sehri: '05:05 AM', iftar: '05:32 PM' },
-      { day: 8, date: 'Wednesday, February 25, 2026', sehri: '05:03 AM', iftar: '05:34 PM' },
-      { day: 9, date: 'Thursday, February 26, 2026', sehri: '05:01 AM', iftar: '05:35 PM' },
-      { day: 10, date: 'Friday, February 27, 2026', sehri: '04:59 AM', iftar: '05:37 PM' },
-      { day: 11, date: 'Saturday, February 28, 2026', sehri: '04:57 AM', iftar: '05:39 PM' },
-      { day: 12, date: 'Sunday, March 1, 2026', sehri: '04:55 AM', iftar: '05:41 PM' },
-      { day: 13, date: 'Monday, March 2, 2026', sehri: '04:53 AM', iftar: '05:42 PM' },
-      { day: 14, date: 'Tuesday, March 3, 2026', sehri: '04:51 AM', iftar: '05:44 PM' },
-      { day: 15, date: 'Wednesday, March 4, 2026', sehri: '04:48 AM', iftar: '05:46 PM' },
-      { day: 16, date: 'Thursday, March 5, 2026', sehri: '04:46 AM', iftar: '05:48 PM' },
-      { day: 17, date: 'Friday, March 6, 2026', sehri: '04:44 AM', iftar: '05:49 PM' },
-      { day: 18, date: 'Saturday, March 7, 2026', sehri: '04:42 AM', iftar: '05:51 PM' },
-      { day: 19, date: 'Sunday, March 8, 2026', sehri: '04:39 AM', iftar: '05:53 PM' },
-      { day: 20, date: 'Monday, March 9, 2026', sehri: '04:37 AM', iftar: '05:55 PM' },
-      { day: 21, date: 'Tuesday, March 10, 2026', sehri: '04:35 AM', iftar: '05:56 PM' },
-      { day: 22, date: 'Wednesday, March 11, 2026', sehri: '04:32 AM', iftar: '05:58 PM' },
-      { day: 23, date: 'Thursday, March 12, 2026', sehri: '04:30 AM', iftar: '06:00 PM' },
-      { day: 24, date: 'Friday, March 13, 2026', sehri: '04:27 AM', iftar: '06:01 PM' },
-      { day: 25, date: 'Saturday, March 14, 2026', sehri: '04:25 AM', iftar: '06:03 PM' },
-      { day: 26, date: 'Sunday, March 15, 2026', sehri: '04:22 AM', iftar: '06:05 PM' },
-      { day: 27, date: 'Monday, March 16, 2026', sehri: '04:20 AM', iftar: '06:07 PM' },
-      { day: 28, date: 'Tuesday, March 17, 2026', sehri: '04:17 AM', iftar: '06:08 PM' },
-      { day: 29, date: 'Wednesday, March 18, 2026', sehri: '04:15 AM', iftar: '06:10 PM' },
-      { day: 30, date: 'Thursday, March 19, 2026', sehri: '04:12 AM', iftar: '06:12 PM' },
+      { day: 1, date: 'Tuesday, February 17, 2026', sehri: '05:35 AM', iftar: '05:27 PM' },
+      { day: 2, date: 'Wednesday, February 18, 2026', sehri: '05:33 AM', iftar: '05:29 PM' },
+      { day: 3, date: 'Thursday, February 19, 2026', sehri: '05:31 AM', iftar: '05:31 PM' },
+      { day: 4, date: 'Friday, February 20, 2026', sehri: '05:29 AM', iftar: '05:33 PM' },
+      { day: 5, date: 'Saturday, February 21, 2026', sehri: '05:27 AM', iftar: '05:35 PM' },
+      { day: 6, date: 'Sunday, February 22, 2026', sehri: '05:25 AM', iftar: '05:37 PM' },
+      { day: 7, date: 'Monday, February 23, 2026', sehri: '05:23 AM', iftar: '05:39 PM' },
+      { day: 8, date: 'Tuesday, February 24, 2026', sehri: '05:21 AM', iftar: '05:41 PM' },
+      { day: 9, date: 'Wednesday, February 25, 2026', sehri: '05:18 AM', iftar: '05:42 PM' },
+      { day: 10, date: 'Thursday, February 26, 2026', sehri: '05:16 AM', iftar: '05:44 PM' },
+      { day: 11, date: 'Friday, February 27, 2026', sehri: '05:14 AM', iftar: '05:46 PM' },
+      { day: 12, date: 'Saturday, February 28, 2026', sehri: '05:12 AM', iftar: '05:48 PM' },
+      { day: 13, date: 'Sunday, March 1, 2026', sehri: '05:10 AM', iftar: '05:50 PM' },
+      { day: 14, date: 'Monday, March 2, 2026', sehri: '05:08 AM', iftar: '05:52 PM' },
+      { day: 15, date: 'Tuesday, March 3, 2026', sehri: '05:05 AM', iftar: '05:54 PM' },
+      { day: 16, date: 'Wednesday, March 4, 2026', sehri: '05:03 AM', iftar: '05:56 PM' },
+      { day: 17, date: 'Thursday, March 5, 2026', sehri: '05:01 AM', iftar: '05:58 PM' },
+      { day: 18, date: 'Friday, March 6, 2026', sehri: '04:59 AM', iftar: '06:02 PM' },
+      { day: 19, date: 'Saturday, March 7, 2026', sehri: '04:56 AM', iftar: '06:04 PM' },
+      { day: 20, date: 'Sunday, March 8, 2026', sehri: '04:54 AM', iftar: '06:05 PM' },
+      { day: 21, date: 'Monday, March 9, 2026', sehri: '04:52 AM', iftar: '06:07 PM' },
+      { day: 22, date: 'Tuesday, March 10, 2026', sehri: '04:49 AM', iftar: '06:09 PM' },
+      { day: 23, date: 'Wednesday, March 11, 2026', sehri: '04:47 AM', iftar: '06:11 PM' },
+      { day: 24, date: 'Thursday, March 12, 2026', sehri: '04:45 AM', iftar: '06:13 PM' },
+      { day: 25, date: 'Friday, March 13, 2026', sehri: '04:42 AM', iftar: '06:15 PM' },
+      { day: 26, date: 'Saturday, March 14, 2026', sehri: '04:40 AM', iftar: '06:17 PM' },
+      { day: 27, date: 'Sunday, March 15, 2026', sehri: '04:38 AM', iftar: '06:19 PM' },
+      { day: 28, date: 'Monday, March 16, 2026', sehri: '04:36 AM', iftar: '06:20 PM' },
+      { day: 29, date: 'Tuesday, March 17, 2026', sehri: '04:33 AM', iftar: '06:22 PM' },
+      { day: 30, date: 'Wednesday, March 18, 2026', sehri: '04:31 AM', iftar: '06:24 PM' },
     ];
 
     const birminghamTimetable: RamzanDate[] = londonTimetable.map(item => ({
@@ -329,74 +306,6 @@ const RamzanCalendar = () => {
       default: return islamabadTimetable;
     }
   }, []);
-
-  // ✅ Animation - Har 10 second mein 3 seconds ke liye
-  useEffect(() => {
-    if (!ramzanStarted) return;
-    
-    const interval = setInterval(() => {
-      setShowRamzanMubarak(true);
-      
-      setTimeout(() => {
-        setShowRamzanMubarak(false);
-      }, 3000);
-      
-    }, 10 * 1000); // Har 10 second
-    
-    return () => clearInterval(interval);
-  }, [ramzanStarted]);
-
-  // ✅ First day animation
-  useEffect(() => {
-    if (ramzanDates.length === 0 || !city) return;
-    
-    const today = new Date();
-    const todayDateStr = today.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-
-    const firstDay = firstRamzanDays[city];
-    
-    if (firstDay === todayDateStr) {
-      const firstDayData = ramzanDates[0];
-      if (!firstDayData) return;
-      
-      const [time, modifier] = firstDayData.iftar.split(' ');
-      const [hoursStr, minutesStr] = time.split(':');
-      let iftarHours = parseInt(hoursStr, 10);
-      const iftarMinutes = parseInt(minutesStr, 10);
-      
-      if (modifier === 'PM' && iftarHours < 12) iftarHours += 12;
-      if (modifier === 'AM' && iftarHours === 12) iftarHours = 0;
-      
-      const iftarTime = new Date();
-      iftarTime.setHours(iftarHours, iftarMinutes, 0, 0);
-      
-      const now = new Date();
-      
-      if (now.getTime() >= iftarTime.getTime() && now.getTime() - iftarTime.getTime() < 1000) {
-        setShowRamzanMubarak(true);
-        
-        setTimeout(() => {
-          setShowRamzanMubarak(false);
-        }, 3000);
-      }
-    }
-  }, [ramzanDates, city]);
-
-  // ✅ City change animation
-  useEffect(() => {
-    if (ramzanStarted) {
-      setShowRamzanMubarak(true);
-      
-      setTimeout(() => {
-        setShowRamzanMubarak(false);
-      }, 3000);
-    }
-  }, [city, ramzanStarted]);
 
   const calculateTimeRemaining = useCallback(() => {
     const cityToUse = currentCityRef.current;
@@ -511,6 +420,51 @@ const RamzanCalendar = () => {
     }
   }, [get2026ManualTimetable]);
 
+  // ✅ Check if today is first day of Ramzan for this city
+  useEffect(() => {
+    if (ramzanDates.length === 0 || !city) return;
+    
+    const today = new Date();
+    const todayDateStr = today.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    // Check if today is first day of Ramzan
+    const firstDay = firstRamzanDays[city];
+    
+    if (firstDay === todayDateStr) {
+      // Get iftar time for first day
+      const firstDayData = ramzanDates[0];
+      if (!firstDayData) return;
+      
+      const [time, modifier] = firstDayData.iftar.split(' ');
+      const [hoursStr, minutesStr] = time.split(':');
+      let iftarHours = parseInt(hoursStr, 10);
+      const iftarMinutes = parseInt(minutesStr, 10);
+      
+      if (modifier === 'PM' && iftarHours < 12) iftarHours += 12;
+      if (modifier === 'AM' && iftarHours === 12) iftarHours = 0;
+      
+      const iftarTime = new Date();
+      iftarTime.setHours(iftarHours, iftarMinutes, 0, 0);
+      
+      const now = new Date();
+      
+      // ✅ Show animation after Iftar time (Maghrib) on first day
+      if (now.getTime() >= iftarTime.getTime() && animationCity !== city) {
+        setShowRamzanMubarak(true);
+        setAnimationCity(city);
+        
+        setTimeout(() => {
+          setShowRamzanMubarak(false);
+        }, 6000);
+      }
+    }
+  }, [ramzanDates, city, animationCity]);
+
   const loadCalendarData = useCallback(() => {
     setLoading(true);
     try {
@@ -600,12 +554,13 @@ const RamzanCalendar = () => {
               let userCountry = data.address.country || 'Pakistan';
               let userCity = data.address.city || data.address.town || data.address.village || data.address.county || 'Islamabad';
               
+              // Convert country names to match cities object
               if (userCountry.includes('United Kingdom') || userCountry.includes('England') || userCountry.includes('UK')) {
                 userCountry = 'UK';
               } else if (userCountry.includes('Pakistan')) {
                 userCountry = 'Pakistan';
               } else {
-                userCountry = 'Pakistan';
+                userCountry = 'Pakistan'; // Default
               }
               
               userCity = userCity.replace(' Division', '').split(',')[0].trim();
@@ -695,15 +650,22 @@ const RamzanCalendar = () => {
     setAshraToggle(newAshraState);
     setAshraColors(newAshraState);
     
-    // ✅ Bismillah color change nahi hoga - sirf dark mode se
+    if (newAshraState) {
+      setBismillahColor('text-green-500 dark:text-green-400');
+    } else {
+      setBismillahColor('text-gray-900 dark:text-white');
+    }
   };
 
   const toggleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
     
-    // ✅ Sirf dark mode se bismillah color change
-    setBismillahColor(newDarkMode ? 'text-white' : 'text-gray-900');
+    if (ashraToggle) {
+      setBismillahColor(newDarkMode ? 'text-green-400' : 'text-green-500');
+    } else {
+      setBismillahColor(newDarkMode ? 'text-white' : 'text-gray-900');
+    }
   };
 
   const handleEditLocation = () => {
@@ -727,6 +689,7 @@ const RamzanCalendar = () => {
     window.print();
   };
 
+  // Helper functions for display
   const getCurrentDay = (): number => {
     const today = new Date();
     const todayStr = today.toLocaleDateString('en-US', {
@@ -872,59 +835,77 @@ const RamzanCalendar = () => {
             </div>
           </div>
           
-          {/* ✅ FIXED: Animation Display - No blank area */}
-          <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700 min-h-[100px] flex items-center justify-center">
-            <div className="w-full overflow-hidden animation-container">
-              <div className="animation-content">
-                {showRamzanMubarak ? (
-                  <div className="walk-animation">
-                    <div className="text-xl md:text-2xl font-bold ramzan-glow text-green-600 dark:text-green-400">
-                      🌙 RAMZAN MUBARAK 🌙
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      {city} | 1447 AH | Day {getCurrentDay()}
-                    </div>
+          {/* Animation Rectangle - Shows on first day after Iftar */}
+          <div className="w-full sm:w-auto text-center sm:text-right sm:border-l sm:pl-6 border-gray-300 dark:border-gray-700 min-h-[120px] flex items-center justify-center">
+            <div className="w-full overflow-hidden">
+              {showRamzanMubarak ? (
+                <div className="walk-animation">
+                  <div className="text-2xl md:text-3xl font-bold ramzan-glow text-green-600 dark:text-green-400">
+                    🌙 RAMZAN MUBARAK 🌙
                   </div>
-                ) : (
-                  <div className="countdown-content">
-                    {ramzanStarted ? (
-                      <div>
-                        {currentPrayer === 'sehri' && timeToSehri ? (
-                          <div>
-                            <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
-                              🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
-                            </div>
-                            <p className="text-sm text-gray-500">⏳ Time until Sehri</p>
-                            <p className="text-xl md:text-2xl font-bold text-blue-600">{timeToSehri}</p>
-                            <p className="text-xs text-gray-500 mt-1">Next: Iftar at {getIftarTime()}</p>
-                          </div>
-                        ) : currentPrayer === 'iftar' && timeToIftar ? (
-                          <div>
-                            <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
-                              🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
-                            </div>
-                            <p className="text-sm text-gray-500">⏳ Time until Iftar</p>
-                            <p className="text-xl md:text-2xl font-bold text-orange-600">{timeToIftar}</p>
-                            <p className="text-xs text-gray-500 mt-1">Next: Sehri at {getSehriTime()}</p>
-                          </div>
-                        ) : (
-                          <div>
-                            <div className="text-xs text-green-600 dark:text-green-400 font-semibold">
-                              🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
-                            </div>
-                            <p className="text-xs text-gray-500 mt-1">Sehri: {getSehriTime()} | Iftar: {getIftarTime()}</p>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div>
-                        <p className="text-sm text-gray-500">⏳ Ramzan starts in</p>
-                        <p className="text-xl font-bold text-green-600">{daysUntilRamzan}d {hoursUntilRamzan}h {minutesUntilRamzan}m</p>
-                      </div>
-                    )}
+                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    {city} | 1447 AH
                   </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div>
+                  {ramzanStarted ? (
+                    <div>
+                      {currentPrayer === 'sehri' && timeToSehri ? (
+                        <div>
+                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold mb-1">
+                            🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
+                          </div>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">⏳ Time until Sehri</p>
+                          <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">{timeToSehri}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            Next: Iftar at {getIftarTime()}
+                          </p>
+                        </div>
+                      ) : currentPrayer === 'iftar' && timeToIftar ? (
+                        <div>
+                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold mb-1">
+                            🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
+                          </div>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">⏳ Time until Iftar</p>
+                          <p className="text-2xl md:text-3xl font-bold text-orange-600 dark:text-orange-400">{timeToIftar}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            Next: Sehri at {getSehriTime()}
+                          </p>
+                        </div>
+                      ) : timeToSehri ? (
+                        <div>
+                          <div className="text-xs text-green-600 dark:text-green-400 font-semibold mb-1">
+                            🌙 Ramzan Mubarak! Day {getCurrentDay()} 🌙
+                          </div>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">⏳ Time until Sehri</p>
+                          <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">{timeToSehri}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            Next: Iftar at {getIftarTime()}
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Ramzan Mubarak! Day {getCurrentDay()}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            Next: Sehri at {getSehriTime()}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">⏳ Ramzan starts in</p>
+                      <p className="text-2xl md:text-3xl font-bold text-green-600 dark:text-green-400">
+                        {daysUntilRamzan}d {hoursUntilRamzan}h {minutesUntilRamzan}m
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        {currentCityRef.current} starts on {ramzanDates[0]?.date}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -934,7 +915,7 @@ const RamzanCalendar = () => {
       <div className="flex items-center justify-between gap-2 mb-6">
         <button
           onClick={handlePrint}
-          className={`px-4 py-2 rounded text-sm font-medium ${darkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-500 hover:bg-green-600'} text-white transition-colors`}
+          className={`px-4 py-2 rounded text-sm font-medium ${darkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-500 hover:bg-green-600'} text-white transition-colors print:hidden`}
         >
           Print Calendar
         </button>
@@ -974,7 +955,6 @@ const RamzanCalendar = () => {
         </div>
       </div>
 
-      {/* Location Modal */}
       {showCustomLocationModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className={`p-6 rounded-xl shadow-lg max-w-md w-full ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
@@ -992,8 +972,11 @@ const RamzanCalendar = () => {
                   onChange={(e) => {
                     const newCountry = e.target.value;
                     setCustomCountry(newCountry);
+                    // Safely set first city of selected country
                     if (cities[newCountry as keyof typeof cities]?.length > 0) {
                       setCustomCity(cities[newCountry as keyof typeof cities][0]);
+                    } else {
+                      setCustomCity('Islamabad');
                     }
                   }}
                   className={`w-full p-2 border rounded-lg ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300'}`}
@@ -1012,9 +995,13 @@ const RamzanCalendar = () => {
                   onChange={(e) => setCustomCity(e.target.value)}
                   className={`w-full p-2 border rounded-lg ${darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300'}`}
                 >
-                  {cities[customCountry as keyof typeof cities]?.map(city => (
-                    <option key={city} value={city}>{city}</option>
-                  ))}
+                  {cities[customCountry as keyof typeof cities] ? (
+                    cities[customCountry as keyof typeof cities].map(city => (
+                      <option key={city} value={city}>{city}</option>
+                    ))
+                  ) : (
+                    <option value="Islamabad">Islamabad</option>
+                  )}
                 </select>
               </div>
             </div>
@@ -1037,7 +1024,6 @@ const RamzanCalendar = () => {
         </div>
       )}
 
-      {/* Dua Section */}
       <div className={`mb-6 p-4 md:p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'} dua-section`}>
         <h2 className={`text-xl md:text-2xl font-bold mb-4 text-right ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           روزے کی نیت (افطار کی دعا)
@@ -1078,7 +1064,6 @@ const RamzanCalendar = () => {
         </div>
       </div>
 
-      {/* Calendar Table */}
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : ramzanDates.length > 0 ? (
@@ -1127,7 +1112,6 @@ const RamzanCalendar = () => {
         <p className="text-center text-red-600">No data available.</p>
       )}
 
-      {/* Ashra Duas */}
       <div className={`mt-6 p-4 md:p-6 rounded-lg shadow-sm ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'}`}>
         <h2 className={`text-xl md:text-2xl font-bold mb-4 text-right ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           Ashra Duas
